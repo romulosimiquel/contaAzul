@@ -8,7 +8,7 @@ require 'environment.php';
 //constants
 define("RAIZ", "contaazul/");
 
-define("BASE", "http://localhost/contazul/");
+define("BASE", "http://localhost/contaazul/");
 
 //connexao
 global $config;
