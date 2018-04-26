@@ -19,7 +19,8 @@ class homeController extends controller {
 		$u->setLoggedUser();
 		$company = new Companies($u->getCompany());
 
-		$data['company_name'] = $company->getName();
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $u->getUserName();
 
 
 

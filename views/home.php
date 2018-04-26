@@ -1,1 +1,1 @@
-Olá
+<?php echo $company_name;

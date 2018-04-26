@@ -1,6 +1,8 @@
 <?php
 class Users extends model {
 
+	private $userInfo;
+
 	public function isLogged()
 	{
 		if(isset($_SESSION['ccUser']) &&  !empty($_SESSION['ccUser']))
@@ -38,10 +40,42 @@ class Users extends model {
 
 			$sql = $this->db->prepare("SELECT * FROM users WHERE id = :id ");
 			$sql->bindValue(':id', $id);
+			$sql->execute();
+
+			if($sql->rowCount() > 0)
+			{
+				$this->userInfo = $sql->fetch();
+			}
+		}
+	}
+
+	public function logout()
+	{
+		unset($_SESSION['ccUser']);
+	}
+
+	public function getCompany()
+	{	
+		if(isset($this->userInfo['id_company']))
+		{	
+			return $this->userInfo['id_company'];
+		} else {
+			return 0;
+		}
+	}
+
+	public function getUserName()
+	{	
+		if(isset($this->userInfo['name']))
+		{	
+			return $this->userInfo['name'];
+		} else {
+			return '';
 		}
 	}
 
 
 
-	
+
+
 }

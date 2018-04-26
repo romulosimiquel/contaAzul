@@ -1,9 +1,30 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Conta Azul</title>
+        <title>Painel - <?php echo $viewData['company_name']?></title>
+        <link rel="stylesheet" type="text/css" href="<?php echo BASE?>assets/css/template.css">
     </head>
     <body>
+    	<div class="leftmenu">
+            <div class="company_name">
+                <?php echo $viewData['company_name']?>
+            </div>
+            <div class="menuarea">
+                <ul>
+                    <li><a href="<?php echo BASE ?>">Home</a></li>
+                    <li><a href="<?php echo BASE ?>/permissions">Permissões</a></li>
+                </ul>
+            </div>
+    	</div>
+    	<div class="container">
+    		<div class="top">
+                <div class="top_right"><a href="<?php echo BASE ?>login/logout">Sair</a></div>
+                <div class="top_right"><?php echo $viewData['user_name']?></div>               
+    		</div>
+            <div class="area">
+                <?php $this->loadViewInTemplate($viewName, $viewData); ?>
+            </div>   		
+    	</div>
         <?php
         $this->loadViewInTemplate($viewName, $viewData);
         ?>
