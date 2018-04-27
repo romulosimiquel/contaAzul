@@ -3,6 +3,8 @@
         <meta charset="UTF-8">
         <title>Painel - <?php echo $viewData['company_name']?></title>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE?>assets/css/template.css">
+        <script type="text/javascript" src="<?php echo BASE; ?>assets/js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo BASE; ?>assets/js/script.js"></script>        
     </head>
     <body>
     	<div class="leftmenu">
@@ -12,7 +14,7 @@
             <div class="menuarea">
                 <ul>
                     <li><a href="<?php echo BASE ?>">Home</a></li>
-                    <li><a href="<?php echo BASE ?>/permissions">Permissões</a></li>
+                    <li><a href="<?php echo BASE ?>permissions">Permissões</a></li>
                 </ul>
             </div>
     	</div>
