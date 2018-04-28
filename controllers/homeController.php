@@ -22,10 +22,18 @@ class homeController extends controller {
 		$data['company_name'] = $company->getCompanyName();
 		$data['user_name']	  = $u->getUserName();
 
-
+		if($u->hasPermission('permissions_view'))
+		{
+			$this->loadTemplate('permissions', $data);
+		} else
+		{
+			header("Location: ".BASE);
+		}
 
 		$this->loadTemplate('home', $data);
 	}
+
+	
 
 
 

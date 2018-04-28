@@ -27,7 +27,6 @@ class loginController extends controller {
 	{
 		$u = new Users();
 		$u->logout();
-
 		header("Location: ".BASE);
 	}
 

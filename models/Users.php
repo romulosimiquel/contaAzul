@@ -47,7 +47,7 @@ class Users extends model {
 			{
 				$this->userInfo 	= $sql->fetch();
 				$this->permissions 	= new Permissions();
-				$this->permissions->setGroup($this->userInfo['group'], $this->userinfo['id_company']);
+				$this->permissions->setGroup($this->userInfo['group'], $this->userInfo['id_company']);
 			}
 		}
 	}
@@ -55,6 +55,11 @@ class Users extends model {
 	public function logout()
 	{
 		unset($_SESSION['ccUser']);
+	}
+
+	public function hasPermission($name)
+	{
+		return $this->permissions->hasPermission($name);
 	}
 
 	public function getCompany()
