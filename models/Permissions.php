@@ -23,8 +23,9 @@ class Permissions extends model {
 				$row['params'] = '0';
 			}
 
-			$sql = $this->db->prepare("SELECT name FROM permission_params WHERE id IN (:id) AND id_company = :id_company");
-			$sql->bindValue(':id', $row['params']);
+			$params = $row['params'];
+
+			$sql = $this->db->prepare("SELECT name FROM permission_params WHERE id IN ($params) AND id_company = :id_company");
 			$sql->bindValue(':id_company', $id_company);
 			$sql->execute();
 
@@ -45,7 +46,39 @@ class Permissions extends model {
 			return true;
 		} else 
 		{
-			return 0;
+			return false;
+		}
+	}
+
+	public function getList($id_company)
+	{
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT * FROM permission_params WHERE id_company = :id_company");
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array = $sql->fetchAll();
+		}
+
+		return $array;
+	}
+
+	public function add($name, $id_company)
+	{
+		$sql = $this->db->prepare("INSERT INTO permission_groups SET name = :name, id_company = :id_company");
+		$sql->bindValue(':name', $name);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			return true;
+		} else 
+		{
+			return false;
 		}
 	}
 }

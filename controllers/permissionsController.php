@@ -22,10 +22,55 @@ class permissionsController extends controller {
 		$data['company_name'] = $company->getCompanyName();
 		$data['user_name']	  = $u->getUserName();
 
-		$this->loadTemplate('permissions', $data);
+		if($u->hasPermission('permissions_view'))
+		{
+			$permissions = new Permissions();
+			$data['permissions_list'] = $permissions->getList($u->getCompany());
+
+			$this->loadTemplate('permissions', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('permissions', $data);			
+		}
 	}
 
+	public function add()
+	{
+		$data = array();
+		$u 		 = new Users();
+		$u->setLoggedUser();
+		$company = new Companies($u->getCompany());
 
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $u->getUserName();
+
+		if($u->hasPermission('permissions_view'))
+		{
+			$permissions = new Permissions();
+
+			if (isset($_POST['name']) && !empty($_POST['name'])) 
+			{
+				$pname = addslashes($_POST['name']);
+
+				$added = $permissions->add($pname, $u->getCompany());
+
+				if($added == true)
+				{
+					echo "Permissão inserida com sucesso!";
+				} else
+				{
+					echo "Erro na hora de adicionar permissão!";
+				}
+			}		 	
+
+			$this->loadTemplate('permissions_add', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('permissions', $data);			
+		}
+	}
 
 
 

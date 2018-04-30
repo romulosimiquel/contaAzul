@@ -98,3 +98,12 @@ body
 {
 	display:none;
 }
+.warning
+{
+	border:2px solid #FF0000;
+	padding:10px;
+	border-radius:5px;
+	background-color:#FF9999;
+	color:#000;
+	margin-top:20px;
+}
