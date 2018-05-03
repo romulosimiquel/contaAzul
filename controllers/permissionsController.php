@@ -57,10 +57,10 @@ class permissionsController extends controller {
 
 				if($added == true)
 				{
-					echo "Permissão inserida com sucesso!";
+					$data['success'] = "Permissão inserida com sucesso!";
 				} else
 				{
-					echo "Erro na hora de adicionar permissão!";
+					$data['error']	 = "Erro na hora de adicionar permissão!";
 				}
 			}		 	
 
@@ -72,9 +72,26 @@ class permissionsController extends controller {
 		}
 	}
 
+	public function delete($id)
+	{
+		$data = array();
+		$u 		 = new Users();
+		$u->setLoggedUser();
+		$company = new Companies($u->getCompany());
 
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $u->getUserName();
 
+		if($u->hasPermission('permissions_view'))
+		{
+			$permissions = new Permissions();
 
+			if(isset($id) && !empty($id))
+			{	
+				$deleted = $permissions->delete($id);
 
-
+				header("Location: ".BASE."permissions");
+			}
+		}
+	}
 }

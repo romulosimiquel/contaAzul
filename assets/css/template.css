@@ -107,3 +107,12 @@ body
 	color:#000;
 	margin-top:20px;
 }
+.success
+{
+	border:2px solid #90ee90;
+	padding:10px;
+	border-radius:5px;
+	background-color:#90ee90;
+	color:#000;
+	margin-top:20px;
+}

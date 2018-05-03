@@ -20,7 +20,7 @@ class Companies extends model{
 	{
 		if(isset($this->companyInfo['name']))
 		{
-			return $this->companyInfo['name'];
+			return utf8_encode($this->companyInfo['name']);
 		} else {
 			return '';
 		}
