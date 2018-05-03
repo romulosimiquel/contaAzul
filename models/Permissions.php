@@ -50,7 +50,7 @@ class Permissions extends model {
 		}
 	}
 
-	public function getList($id_company)
+	public function getPermList($id_company)
 	{
 		$array = array();
 
@@ -66,7 +66,23 @@ class Permissions extends model {
 		return $array;
 	}
 
-	public function add($name, $id_company)
+	public function getGroupsList($id_company)
+	{
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT * FROM permission_groups WHERE id_company = :id_company");
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array = $sql->fetchAll();
+		}
+
+		return $array;
+	}
+
+	public function add_param($name, $id_company)
 	{
 		$sql = $this->db->prepare("INSERT INTO permission_params SET name = :name, id_company = :id_company");
 		$sql->bindValue(':name', $name);
@@ -82,9 +98,34 @@ class Permissions extends model {
 		}
 	}
 
-	public function delete($id)
+	public function add_group($name, $param, $id_company)
+	{
+		$sql = $this->db->prepare("INSERT INTO permission_groups SET name = :name, id_company = :id_company, params = :param");
+		$sql->bindValue(':param', $param);
+		$sql->bindValue(':name', $name);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			return true;
+		} else 
+		{
+			return false;
+		}
+
+	}
+
+	public function delete_param($id)
 	{
 		$sql = $this->db->prepare("DELETE FROM permission_params WHERE id = :id");
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+	}
+
+	public function delete_group($id)
+	{
+		$sql = $this->db->prepare("DELETE FROM permission_groups WHERE id = :id");
 		$sql->bindValue(':id', $id);
 		$sql->execute();
 	}

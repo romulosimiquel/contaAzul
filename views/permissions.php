@@ -9,12 +9,30 @@
 	<div class="tabitem">Permissões</div>
 </div>
 <div class="tabcontent">
-	<div class="tabbody" style="display:block;">
-		GRUPOS DE PERMISSÕES
+	<div class="tabbody" style="display:block">
+
+		<div class="button"><a href="<?php echo BASE ?>permissions/add_group">Adicionar Grupo de Permissão</a></div>
+		
+
+		<table border="0" width="100%">
+
+			<tr>
+				<th>Nome do Grupo de Permissões</th>
+				<th>Ações</th>
+			</tr>
+			<?php foreach ($permissions_groups_list as $p) :?>
+				<tr>
+					<td><?php echo $p['name'] ?></td>
+					<td width="200px"><div class="button button_small"><a href="<?php echo BASE ?>permissions/edit_group/<?php echo $p['id'] ?>">Editar</a></div>
+					<div class="button button_delete"><a href="<?php echo BASE ?>permissions/delete_group/<?php echo $p['id'] ?>" onclick="return confirm('Realmente deseja excluir?')">Excluir</a></div></td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
 
 	</div>
 	<div class="tabbody">
-		<a href="<?php echo BASE ?>permissions/add">Adicionar Permissão</a>
+		
+		<div class="button"><a href="<?php echo BASE ?>permissions/add_param">Adicionar Permissão</a></div>
 		
 
 		<table border="0" width="100%">
@@ -26,7 +44,7 @@
 			<?php foreach ($permissions_list as $p) :?>
 				<tr>
 					<td><?php echo $p['name'] ?></td>
-					<td><a href="<?php echo BASE ?>permissions/delete/<?php echo $p['id'] ?>">Excluir</a></td>
+					<td width="50px"><div class="button button_delete"><a href="<?php echo BASE ?>permissions/delete_param/<?php echo $p['id'] ?>" onclick="return confirm('Realmente deseja excluir?')">Excluir</a></div></td>
 				</tr>
 			<?php endforeach; ?>
 		</table>		
