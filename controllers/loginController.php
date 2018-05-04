@@ -10,9 +10,9 @@ class loginController extends controller {
 			$email = addslashes($_POST['email']);
 			$pass  = addslashes($_POST['password']);
 
-			$u = new Users();
+			$user = new Users();
 
-			if($u->doLogin($email, $pass))
+			if($user->doLogin($email, $pass))
 			{
 				header("Location: ".BASE);
 			} else{
@@ -25,8 +25,8 @@ class loginController extends controller {
 
 	public function logout()
 	{
-		$u = new Users();
-		$u->logout();
+		$user = new Users();
+		$user->logout();
 		header("Location: ".BASE);
 	}
 

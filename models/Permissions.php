@@ -1,15 +1,15 @@
 <?php
 class Permissions extends model {
 
-	private $group;
+	private $team;
 	private $permissions;
 
-	public function setGroup($id, $id_company) 
+	public function setTeam($id, $id_company) 
 	{
-		$this->group = $id;
+		$this->team = $id;
 		$this->permissions = array();
 
-		$sql = $this->db->prepare("SELECT params FROM permission_groups WHERE id = :id AND id_company = :id_company");
+		$sql = $this->db->prepare("SELECT params FROM permission_teams WHERE id = :id AND id_company = :id_company");
 		$sql->bindValue(':id', $id);
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
@@ -66,11 +66,11 @@ class Permissions extends model {
 		return $array;
 	}
 
-	public function getGroupsList($id_company)
+	public function getTeamsList($id_company)
 	{
 		$array = array();
 
-		$sql = $this->db->prepare("SELECT * FROM permission_groups WHERE id_company = :id_company");
+		$sql = $this->db->prepare("SELECT * FROM permission_teams WHERE id_company = :id_company");
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
 
@@ -98,10 +98,12 @@ class Permissions extends model {
 		}
 	}
 
-	public function add_group($name, $param, $id_company)
+	public function add_team($name, $plist, $id_company)
 	{
-		$sql = $this->db->prepare("INSERT INTO permission_groups SET name = :name, id_company = :id_company, params = :param");
-		$sql->bindValue(':param', $param);
+		$params = implode(',', $plist);
+
+		$sql = $this->db->prepare("INSERT INTO permission_teams SET name = :name, id_company = :id_company, params = :params");
+		$sql->bindValue(':params', $params);
 		$sql->bindValue(':name', $name);
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
@@ -123,10 +125,19 @@ class Permissions extends model {
 		$sql->execute();
 	}
 
-	public function delete_group($id)
+	public function delete_team($id)
 	{
-		$sql = $this->db->prepare("DELETE FROM permission_groups WHERE id = :id");
+		$user = new Users();
+
+		if($user->findUsersInTeam($id) == false)
+		{
+		$sql = $this->db->prepare("DELETE FROM permission_teams WHERE id = :id");
 		$sql->bindValue(':id', $id);
 		$sql->execute();
+		} else
+		{
+			echo "VEI PRA CÁ";
+			exit;
+		}
 	}
 }

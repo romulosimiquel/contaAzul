@@ -47,7 +47,7 @@ class Users extends model {
 			{
 				$this->userInfo 	= $sql->fetch();
 				$this->permissions 	= new Permissions();
-				$this->permissions->setGroup($this->userInfo['group'], $this->userInfo['id_company']);
+				$this->permissions->setTeam($this->userInfo['team'], $this->userInfo['id_company']);
 			}
 		}
 	}
@@ -82,7 +82,21 @@ class Users extends model {
 		}
 	}
 
+	public function findUsersInTeam($id)
+	{
+		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM users WHERE team = :team");
+		$sql->bindValue(":team", $id);
+		$sql->execute();
 
+		$row = $sql->fetch();
+		if($row['c'] == '0')
+		{
+			return false;
+		} else
+		{
+			return true;
+		}
+	}
 
 
 

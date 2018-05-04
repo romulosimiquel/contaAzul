@@ -34,7 +34,7 @@ class permissionsController extends controller {
 		{
 			$permissions = new Permissions();
 			$data['permissions_list'] 			= $permissions->getPermList($user->getCompany());
-			$data['permissions_groups_list'] 	= $permissions->getGroupsList($user->getCompany());
+			$data['permissions_teams_list'] 	= $permissions->getTeamsList($user->getCompany());
 
 			$this->loadTemplate('permissions', $data);
 		} else
@@ -88,10 +88,11 @@ class permissionsController extends controller {
 
 	/** 
 	* Adiciona um novo grupo de acesso
-	* @param string $name, nome do grupo
+	* @param string $gname, nome do grupo
+	* @param $plist, lista de parametros de acesso
 	* @return $data
 	*/
-	public function add_group()
+	public function add_team()
 	{
 		$data = array();
 		$user 		 = new Users();
@@ -104,13 +105,15 @@ class permissionsController extends controller {
 		if($user->hasPermission('permissions_view'))
 		{
 			$permissions = new Permissions();
+			$data['permissions_list'] 			= $permissions->getPermList($user->getCompany());
+			$data['permissions_teams_list'] 	= $permissions->getTeamsList($user->getCompany());
 
-			if ((isset($_POST['name']) && !empty($_POST['name'])) && (isset($_POST['params']) && !empty($_POST['params']))) 
+			if (isset($_POST['name']) && !empty($_POST['name'])) 
 			{
 				$gname = addslashes($_POST['name']);
-				$pname = addslashes($_POST['params']);
+				$plist = $_POST['permissions'];
 
-				$added = $permissions->add_group($gname, $pname, $user->getCompany());
+				$added = $permissions->add_team($gname, $plist, $user->getCompany());
 
 				if($added == true)
 				{
@@ -121,7 +124,7 @@ class permissionsController extends controller {
 				}
 			}		 	
 
-			$this->loadTemplate('permissions_add_group', $data);
+			$this->loadTemplate('permissions_add_team', $data);
 		} else
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';
@@ -157,7 +160,7 @@ class permissionsController extends controller {
 		}
 	}
 
-	public function delete_group($id_param)
+	public function delete_team($id_team)
 	{
 		$data = array();
 		$user 		 = new Users();
@@ -171,10 +174,13 @@ class permissionsController extends controller {
 		{
 			$permissions = new Permissions();
 
-			if(isset($id_param) && !empty($id_param))
+			if(isset($id_team) && !empty($id_team))
 			{	
-				$deleted = $permissions->delete_group($id_param);
+				$deleted = $permissions->delete_team($id_team);
 
+				header("Location: ".BASE."permissions");
+			} else
+			{
 				header("Location: ".BASE."permissions");
 			}
 		}
