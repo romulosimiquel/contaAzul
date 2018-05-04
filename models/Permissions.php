@@ -1,15 +1,15 @@
 <?php
 class Permissions extends model {
 
-	private $team;
+	private $group;
 	private $permissions;
 
-	public function setTeam($id, $id_company) 
+	public function setGroup($id, $id_company) 
 	{
-		$this->team = $id;
+		$this->group = $id;
 		$this->permissions = array();
 
-		$sql = $this->db->prepare("SELECT params FROM permission_teams WHERE id = :id AND id_company = :id_company");
+		$sql = $this->db->prepare("SELECT params FROM permission_groups WHERE id = :id AND id_company = :id_company");
 		$sql->bindValue(':id', $id);
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
@@ -66,11 +66,11 @@ class Permissions extends model {
 		return $array;
 	}
 
-	public function getTeamsList($id_company)
+	public function getGroupsList($id_company)
 	{
 		$array = array();
 
-		$sql = $this->db->prepare("SELECT * FROM permission_teams WHERE id_company = :id_company");
+		$sql = $this->db->prepare("SELECT * FROM permission_groups WHERE id_company = :id_company");
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
 
@@ -81,6 +81,42 @@ class Permissions extends model {
 
 		return $array;
 	}
+
+	public function getGroup($id, $id_company)
+	{
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT * FROM permission_groups WHERE id = :id AND id_company = :id_company");
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array = $sql->fetch();
+			$array['params'] = explode(',', $array['params']);
+		}
+
+		return $array;
+	}
+
+	public function getGroupName($id, $id_company)
+	{
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT name FROM permission_groups WHERE id = :id AND id_company = :id_company");
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array = $sql->fetch();
+		}
+
+		return $array;
+	}
+
 
 	public function add_param($name, $id_company)
 	{
@@ -98,11 +134,11 @@ class Permissions extends model {
 		}
 	}
 
-	public function add_team($name, $plist, $id_company)
+	public function add_group($name, $plist, $id_company)
 	{
 		$params = implode(',', $plist);
 
-		$sql = $this->db->prepare("INSERT INTO permission_teams SET name = :name, id_company = :id_company, params = :params");
+		$sql = $this->db->prepare("INSERT INTO permission_groups SET name = :name, id_company = :id_company, params = :params");
 		$sql->bindValue(':params', $params);
 		$sql->bindValue(':name', $name);
 		$sql->bindValue(':id_company', $id_company);
@@ -125,19 +161,36 @@ class Permissions extends model {
 		$sql->execute();
 	}
 
-	public function delete_team($id)
+	public function delete_group($id)
 	{
 		$user = new Users();
 
-		if($user->findUsersInTeam($id) == false)
+		if($user->findUsersInGroup($id) == false)
 		{
-		$sql = $this->db->prepare("DELETE FROM permission_teams WHERE id = :id");
+		$sql = $this->db->prepare("DELETE FROM permission_groups WHERE id = :id");
 		$sql->bindValue(':id', $id);
 		$sql->execute();
-		} else
-		{
-			echo "VEI PRA CÁ";
-			exit;
 		}
+	}
+
+	public function edit_group($name, $plist, $id, $id_company)
+	{
+		$params = implode(',', $plist);
+
+		$sql = $this->db->prepare("UPDATE permission_groups SET name = :name, id_company = :id_company, params = :params WHERE id = :id");
+		$sql->bindValue(':params', $params);
+		$sql->bindValue(':name', $name);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			return true;
+		} else 
+		{
+			return false;
+		}
+
 	}
 }

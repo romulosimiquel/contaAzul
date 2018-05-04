@@ -47,19 +47,9 @@ class Users extends model {
 			{
 				$this->userInfo 	= $sql->fetch();
 				$this->permissions 	= new Permissions();
-				$this->permissions->setTeam($this->userInfo['team'], $this->userInfo['id_company']);
+				$this->permissions->setGroup($this->userInfo['id_group'], $this->userInfo['id_company']);
 			}
 		}
-	}
-
-	public function logout()
-	{
-		unset($_SESSION['ccUser']);
-	}
-
-	public function hasPermission($name)
-	{
-		return $this->permissions->hasPermission($name);
 	}
 
 	public function getCompany()
@@ -82,10 +72,38 @@ class Users extends model {
 		}
 	}
 
-	public function findUsersInTeam($id)
+	public function getList($id_company)
 	{
-		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM users WHERE team = :team");
-		$sql->bindValue(":team", $id);
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT * FROM users WHERE id_company = :id_company");
+		$sql->bindValue(":id_company", $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array = $sql->fetchAll();
+
+			$array['group_name'] = $this->permissions->getGroupName($array['0']['id_group'], $id_company);
+		}
+
+		return $array;
+	}
+
+	public function logout()
+	{
+		unset($_SESSION['ccUser']);
+	}
+
+	public function hasPermission($name)
+	{
+		return $this->permissions->hasPermission($name);
+	}
+
+	public function findUsersInGroup($id)
+	{
+		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM users WHERE id_group = :id_group");
+		$sql->bindValue(":id_group", $id);
 		$sql->execute();
 
 		$row = $sql->fetch();
@@ -97,7 +115,4 @@ class Users extends model {
 			return true;
 		}
 	}
-
-
-
 }

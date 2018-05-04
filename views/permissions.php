@@ -11,7 +11,7 @@
 <div class="tabcontent">
 	<div class="tabbody" style="display:block">
 
-		<div class="button"><a href="<?php echo BASE ?>permissions/add_team">Adicionar Grupo de Permissão</a></div>
+		<div class="button"><a href="<?php echo BASE ?>permissions/add_group">Adicionar Grupo de Permissão</a></div>
 		
 
 		<table border="0" width="100%">
@@ -20,11 +20,11 @@
 				<th>Nome do Grupo de Permissões</th>
 				<th>Ações</th>
 			</tr>
-			<?php foreach ($permissions_teams_list as $p) :?>
+			<?php foreach ($permissions_groups_list as $p) :?>
 				<tr>
 					<td><?php echo $p['name'] ?></td>
-					<td width="200px"><div class="button button_small"><a href="<?php echo BASE ?>permissions/edit_team/<?php echo $p['id'] ?>">Editar</a></div>
-					<div class="button button_delete"><a href="<?php echo BASE ?>permissions/delete_team/<?php echo $p['id'] ?>" onclick="return confirm('Realmente deseja excluir?')">Excluir</a></div></td>
+					<td width="200px"><div class="button button_small"><a href="<?php echo BASE ?>permissions/edit_group/<?php echo $p['id'] ?>">Editar</a></div>
+					<div class="button button_delete"><a href="<?php echo BASE ?>permissions/delete_group/<?php echo $p['id'] ?>" onclick="return confirm('Realmente deseja excluir?')">Excluir</a></div></td>
 				</tr>
 			<?php endforeach; ?>
 		</table>

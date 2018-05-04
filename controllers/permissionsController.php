@@ -34,7 +34,7 @@ class permissionsController extends controller {
 		{
 			$permissions = new Permissions();
 			$data['permissions_list'] 			= $permissions->getPermList($user->getCompany());
-			$data['permissions_teams_list'] 	= $permissions->getTeamsList($user->getCompany());
+			$data['permissions_groups_list'] 	= $permissions->getGroupsList($user->getCompany());
 
 			$this->loadTemplate('permissions', $data);
 		} else
@@ -92,7 +92,7 @@ class permissionsController extends controller {
 	* @param $plist, lista de parametros de acesso
 	* @return $data
 	*/
-	public function add_team()
+	public function add_group()
 	{
 		$data = array();
 		$user 		 = new Users();
@@ -106,14 +106,14 @@ class permissionsController extends controller {
 		{
 			$permissions = new Permissions();
 			$data['permissions_list'] 			= $permissions->getPermList($user->getCompany());
-			$data['permissions_teams_list'] 	= $permissions->getTeamsList($user->getCompany());
+			$data['permissions_groups_list'] 	= $permissions->getGroupsList($user->getCompany());
 
 			if (isset($_POST['name']) && !empty($_POST['name'])) 
 			{
 				$gname = addslashes($_POST['name']);
 				$plist = $_POST['permissions'];
 
-				$added = $permissions->add_team($gname, $plist, $user->getCompany());
+				$added = $permissions->add_group($gname, $plist, $user->getCompany());
 
 				if($added == true)
 				{
@@ -124,7 +124,7 @@ class permissionsController extends controller {
 				}
 			}		 	
 
-			$this->loadTemplate('permissions_add_team', $data);
+			$this->loadTemplate('permissions_add_group', $data);
 		} else
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';
@@ -160,7 +160,13 @@ class permissionsController extends controller {
 		}
 	}
 
-	public function delete_team($id_team)
+	/** 
+	* Adiciona um novo grupo de acesso
+	* @param string $gname, nome do grupo
+	* @param $plist, lista de parametros de acesso
+	* @return $data
+	*/
+	public function delete_group($id_group)
 	{
 		$data = array();
 		$user 		 = new Users();
@@ -174,15 +180,56 @@ class permissionsController extends controller {
 		{
 			$permissions = new Permissions();
 
-			if(isset($id_team) && !empty($id_team))
+			if(isset($id_group) && !empty($id_group))
 			{	
-				$deleted = $permissions->delete_team($id_team);
+				$deleted = $permissions->delete_group($id_group);
 
 				header("Location: ".BASE."permissions");
 			} else
 			{
 				header("Location: ".BASE."permissions");
 			}
+		}
+	}
+
+	public function edit_group($id)
+	{
+		$data = array();
+		$user 		 = new Users();
+		$user->setLoggedUser();
+		$company = new Companies($user->getCompany());
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('permissions_view'))
+		{
+			$permissions = new Permissions();
+
+			if (isset($_POST['name']) && !empty($_POST['name'])) 
+			{
+				$gname = addslashes($_POST['name']);
+				$plist = $_POST['permissions'];
+
+				$edited = $permissions->edit_group($gname, $plist, $id, $user->getCompany());
+
+				if($edited == true)
+				{
+					$data['success'] = "Grupo alterado com sucesso!";
+				} else
+				{
+					$data['error']	 = "Erro na hora de editar o grupo!";
+				}
+			}
+
+			$data['permissions_list'] 			= $permissions->getPermList($user->getCompany());
+			$data['group_info']					= $permissions->getGroup($id, $user->getCompany());
+
+			$this->loadTemplate('permissions_edit_group', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('permissions', $data);			
 		}
 	}
 }
