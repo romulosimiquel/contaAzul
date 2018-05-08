@@ -72,21 +72,33 @@ class Users extends model {
 		}
 	}
 
+	public function getUserData($id)
+	{
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT * FROM users WHERE id = :id ");
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+			{
+				$array = $sql->fetch();
+			}
+
+		return $array;
+	}
+
 	public function getList($id_company)
 	{
 		$array = array();
 
-		$sql = $this->db->prepare("SELECT * FROM users WHERE id_company = :id_company");
+		$sql = $this->db->prepare("SELECT users.id, users.name, users.email, permission_groups.group_name FROM users LEFT JOIN permission_groups ON permission_groups.id = users.id_group WHERE users.id_company = :id_company");
 		$sql->bindValue(":id_company", $id_company);
 		$sql->execute();
 
 		if($sql->rowCount() > 0)
 		{
 			$array = $sql->fetchAll();
-
-			$group_name = $this->permissions->getGroupName($array['0']['id_group']);
-
-			$array['0'] = array_merge($array['0'], $group_name);
 
 		}
 
@@ -116,6 +128,74 @@ class Users extends model {
 		} else
 		{
 			return true;
+		}
+	}
+
+	public function add_user($email, $password, $name, $id_group, $id_company)
+	{
+		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM users WHERE email = :email");
+		$sql->bindValue(':email', $email);
+		$sql->execute();
+		$row = $sql->fetch();
+
+		if($row['c'] == '0')
+		{
+			$sql = $this->db->prepare("INSERT INTO users SET email = :email, password = :password, name = :name, id_group = :id_group, id_company = :id_company");
+			$sql->bindValue(':email', $email);
+			$sql->bindValue(':password', md5($password));
+			$sql->bindValue(':name', $name);
+			$sql->bindValue(':id_group', $id_group);
+			$sql->bindValue(':id_company', $id_company);
+			$sql->execute();
+
+			if($sql->rowCount() > 0)
+			{
+				return true;
+
+			} else 
+			{
+				return false;
+			}
+		} else
+		{
+			return '0';
+		}
+	}
+
+	public function edit_user($id, $password, $name, $id_group, $id_company)
+	{
+
+		$sql = $this->db->prepare("UPDATE users SET password = :password, name = :name, id_group = :id_group, id_company = :id_company WHERE id = :id");
+		$sql->bindValue(':password', md5($password));
+		$sql->bindValue(':name', $name);
+		$sql->bindValue(':id_group', $id_group);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			return true;
+		} else 
+		{
+			return false;
+		}
+
+	}
+
+	public function delete_user($id, $id_company)
+	{	
+		$sql = $this->db->prepare("SELECT id_company FROM users WHERE id = :id");
+		$sql->bindValue(':id', $id);
+		$sql->execute();
+		$comp = $sql->fetch();
+
+		if($id_company == $comp['id_company'])
+		{
+		$sql = $this->db->prepare("DELETE FROM users WHERE id = :id AND id_company = :id_company");
+		$sql->bindValue(':id', $id);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
 		}
 	}
 }

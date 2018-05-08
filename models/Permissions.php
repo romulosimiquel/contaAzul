@@ -100,24 +100,6 @@ class Permissions extends model {
 		return $array;
 	}
 
-	public function getGroupName($id)
-	{
-		$array = array();
-
-		$sql = $this->db->prepare("SELECT group_name FROM permission_groups WHERE id = :id");
-		$sql->bindValue(':id', $id);
-		$sql->execute();
-
-		if($sql->rowCount() > 0)
-		{
-			$array = $sql->fetch();
-
-		}
-
-		return $array;
-	}
-
-
 	public function add_param($name, $id_company)
 	{
 		$sql = $this->db->prepare("INSERT INTO permission_params SET name = :name, id_company = :id_company");

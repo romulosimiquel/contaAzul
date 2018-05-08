@@ -1,8 +1,8 @@
 <h1>Permissões - Editar Grupo</h1>
 
 <form method="POST">
-	<label for="name">Nome do Grupo</label></br>
-	<input type="text" name="name" value="<?php echo $group_info['name'] ?>" /><br/><br/>
+	<label for="group_name">Nome do Grupo</label></br>
+	<input type="text" name="group_name" value="<?php echo $group_info['group_name'] ?>" /><br/><br/>
 
 	<label>Permissões</label> <br/>
 	<?php foreach($permissions_list as $p): ?>
