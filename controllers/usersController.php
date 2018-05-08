@@ -26,6 +26,7 @@ class usersController extends controller {
 		$user 		= new Users();
 		$user->setLoggedUser();
 		$company 	= new Companies($user->getCompany());
+		$permissions= new Permissions();
 
 		$data['company_name'] = $company->getCompanyName();
 		$data['user_name']	  = $user->getUserName();

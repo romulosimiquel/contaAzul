@@ -84,7 +84,10 @@ class Users extends model {
 		{
 			$array = $sql->fetchAll();
 
-			$array['group_name'] = $this->permissions->getGroupName($array['0']['id_group'], $id_company);
+			$group_name = $this->permissions->getGroupName($array['0']['id_group']);
+
+			$array['0'] = array_merge($array['0'], $group_name);
+
 		}
 
 		return $array;

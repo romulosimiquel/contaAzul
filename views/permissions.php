@@ -22,7 +22,7 @@
 			</tr>
 			<?php foreach ($permissions_groups_list as $p) :?>
 				<tr>
-					<td><?php echo $p['name'] ?></td>
+					<td><?php echo $p['group_name'] ?></td>
 					<td width="200px"><div class="button button_small"><a href="<?php echo BASE ?>permissions/edit_group/<?php echo $p['id'] ?>">Editar</a></div>
 					<div class="button button_delete"><a href="<?php echo BASE ?>permissions/delete_group/<?php echo $p['id'] ?>" onclick="return confirm('Realmente deseja excluir?')">Excluir</a></div></td>
 				</tr>
