@@ -1,6 +1,13 @@
 <?php
 class loginController extends controller {
 
+	/** 
+	* Call login view
+	* @param string $email
+	* @param string $pass
+	* @return send to home view if success login
+	*/
+
 	public function index()
 	{
 		$data = array();
@@ -22,6 +29,12 @@ class loginController extends controller {
 
 		$this->loadView('login', $data);
 	}
+
+	/** 
+	* Logout the running user
+	* @param array $user
+	* @return login view
+	*/
 
 	public function logout()
 	{

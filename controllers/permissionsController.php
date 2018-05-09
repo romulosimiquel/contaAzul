@@ -1,6 +1,10 @@
 <?php
 class permissionsController extends controller {
 
+	/** 
+	* verify if the user is logged, if don't it's sent to login page
+	*/
+
 	public function __construct(){
 		parent::__construct();
 
@@ -14,11 +18,7 @@ class permissionsController extends controller {
 
 	/** 
 	* Call index permission view, verify if the user has permission to see the permissions view
-	* @param array $data
-	* @param object $company
-	* @param object $u
-	* @param object $permissions
-	* @return $data
+	* @return permissions view with $data
 	*/
 	public function index()
 	{
@@ -45,9 +45,8 @@ class permissionsController extends controller {
 	}
 
 	/** 
-	* Adiciona um novo parâmetro de acesso ao banco de dados
-	* @param string $name, nome do parâmetro
-	* @return $data
+	* Adds a new access parameter
+	* @return permissions view with $data
 	*/
 	public function add_param()
 	{
@@ -87,10 +86,8 @@ class permissionsController extends controller {
 	}
 
 	/** 
-	* Adiciona um novo grupo de acesso
-	* @param string $gname, nome do grupo
-	* @param $plist, lista de parametros de acesso
-	* @return $data
+	* Adds a new access group
+	* @return permissions view with $data
 	*/
 	public function add_group()
 	{
@@ -133,7 +130,7 @@ class permissionsController extends controller {
 	}
 
 	/** 
-	* Deleta um parâmetro de acesso do banco de dados
+	* Deletes a access parameter 
 	* @param int $id_param
 	* @return boolean
 	*/
@@ -161,10 +158,9 @@ class permissionsController extends controller {
 	}
 
 	/** 
-	* Adiciona um novo grupo de acesso
-	* @param string $gname, nome do grupo
-	* @param $plist, lista de parametros de acesso
-	* @return $data
+	* Deletes a access group
+	* @param int $id_group
+	* @return boolean
 	*/
 	public function delete_group($id_group)
 	{
@@ -192,6 +188,10 @@ class permissionsController extends controller {
 		}
 	}
 
+	/** 
+	* Edit a access group
+	* @return boolean
+	*/
 	public function edit_group($id)
 	{
 		$data = array();

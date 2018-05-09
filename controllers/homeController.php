@@ -1,6 +1,10 @@
 <?php
 class homeController extends controller {
 
+	/** 
+	* home class construct, verify if the user is logged, if don't it's sent to login page
+	*/
+
 	public function __construct(){
 		parent::__construct();
 
@@ -11,6 +15,11 @@ class homeController extends controller {
 			header("Location: ".BASE."login");
 		}
 	}
+
+	/** 
+	* Call home view
+	* @return home view
+	*/
 
 	public function index()
 	{

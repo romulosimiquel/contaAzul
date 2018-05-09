@@ -23,5 +23,5 @@
 	<?php elseif(isset($success) && !empty($success)) :?>
 		<div class="success"><?php echo $success?></div>
 	<?php endif;?>
-	<input class="button" type="submit" value="Adicionar" />
+	<input class="button" type="submit" value="Editar" />
 </form>

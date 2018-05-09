@@ -13,11 +13,7 @@ class usersController extends controller {
 	}
 
 	/** 
-	* Call index permission view, verify if the user has permission to see the permissions view
-	* @param array $data
-	* @param object $company
-	* @param object $u
-	* @param object $permissions
+	* Call index permission view, verify if the user has permission to access users view
 	* @return $data
 	*/
 	public function index()
@@ -43,6 +39,10 @@ class usersController extends controller {
 		}
 	}
 
+	/** 
+	* Adds a new user to the curent company
+	* @return $data
+	*/
 	public function add_user()
 	{
 		$data 		= array();
@@ -89,6 +89,10 @@ class usersController extends controller {
 		}
 	}
 
+	/** 
+	* Edits a selected user from the curent company
+	* @return $data
+	*/
 	public function edit_user($id)
 	{
 		$data 		= array();
@@ -106,22 +110,22 @@ class usersController extends controller {
 
 			if(isset($_POST['name']) && !empty($_POST['name']))
 			{
-				$pass  = addclashes($_POST['password']);
+				$pass  = addslashes($_POST['password']);
 				$name  = addslashes($_POST['name']);
 				$group = addslashes($_POST['group_name']);
 
 				$edited = $user->edit_user($id, $pass, $name, $group, $user->getCompany());
 
-				if($added == true)
+				if($edited == true)
 				{
 					$data['success'] = "Usuário adicionado com sucesso!";
 				} else
 				{
-					$data['error']	 = "Erro na hora de adicionar usuário!";
+					$data['error']	 = "Erro na hora de editar usuário!";
 				}
 			}
 			
-			$data['user_info']	= $user->getUserData($id);
+			$data['user_info']	= $user->getUserData($id, $user->getCompany());
 			$data['group_list'] = $permissions->getGroupsList($user->getCompany());
 
 			$this->loadTemplate('users_edit', $data);

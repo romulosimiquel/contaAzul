@@ -4,6 +4,10 @@ class Users extends model {
 	private $userInfo;
 	private $permissions;
 
+	/** 
+	* Verify if users session is seted
+	* @return boolean
+	*/
 	public function isLogged()
 	{
 		if(isset($_SESSION['ccUser']) &&  !empty($_SESSION['ccUser']))
@@ -72,12 +76,13 @@ class Users extends model {
 		}
 	}
 
-	public function getUserData($id)
+	public function getUserData($id, $id_company)
 	{
 		$array = array();
 
-		$sql = $this->db->prepare("SELECT * FROM users WHERE id = :id ");
+		$sql = $this->db->prepare("SELECT * FROM users WHERE id = :id AND id_company = :id_company");
 		$sql->bindValue(':id', $id);
+		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
 
 		if($sql->rowCount() > 0)
@@ -164,14 +169,21 @@ class Users extends model {
 
 	public function edit_user($id, $password, $name, $id_group, $id_company)
 	{
-
-		$sql = $this->db->prepare("UPDATE users SET password = :password, name = :name, id_group = :id_group, id_company = :id_company WHERE id = :id");
-		$sql->bindValue(':password', md5($password));
+		$sql = $this->db->prepare("UPDATE users SET name = :name, id_group = :id_group WHERE id = :id AND id_company = :id_company");
 		$sql->bindValue(':name', $name);
 		$sql->bindValue(':id_group', $id_group);
 		$sql->bindValue(':id_company', $id_company);
 		$sql->bindValue(':id', $id);
 		$sql->execute();
+
+		if(!empty($password)) 
+		{
+			$sql = $this->db->prepare("UPDATE users SET password = :password WHERE id = :id AND id_company = :id_company");
+			$sql->bindValue(':password', md5($password));
+			$sql->bindValue(':id_company', $id_company);
+			$sql->bindValue(':id', $id);
+			$sql->execute();
+		}
 
 		if($sql->rowCount() > 0)
 		{
@@ -180,7 +192,6 @@ class Users extends model {
 		{
 			return false;
 		}
-
 	}
 
 	public function delete_user($id, $id_company)
