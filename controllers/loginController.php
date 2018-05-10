@@ -3,8 +3,6 @@ class loginController extends controller {
 
 	/** 
 	* Call login view
-	* @param string $email
-	* @param string $pass
 	* @return send to home view if success login
 	*/
 
@@ -32,7 +30,6 @@ class loginController extends controller {
 
 	/** 
 	* Logout the running user
-	* @param array $user
 	* @return login view
 	*/
 

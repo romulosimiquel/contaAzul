@@ -159,7 +159,7 @@ class Permissions extends model {
 	{
 		$params = implode(',', $plist);
 
-		$sql = $this->db->prepare("UPDATE permission_groups SET name = :name, id_company = :id_company, params = :params WHERE id = :id");
+		$sql = $this->db->prepare("UPDATE permission_groups SET group_name = :name, params = :params WHERE id = :id AND id_company = :id_company");
 		$sql->bindValue(':params', $params);
 		$sql->bindValue(':name', $name);
 		$sql->bindValue(':id_company', $id_company);

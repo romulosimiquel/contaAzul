@@ -206,9 +206,9 @@ class permissionsController extends controller {
 		{
 			$permissions = new Permissions();
 
-			if (isset($_POST['name']) && !empty($_POST['name'])) 
+			if (isset($_POST['group_name']) && !empty($_POST['group_name'])) 
 			{
-				$gname = addslashes($_POST['name']);
+				$gname = addslashes($_POST['group_name']);
 				$plist = $_POST['permissions'];
 
 				$edited = $permissions->edit_group($gname, $plist, $id, $user->getCompany());
