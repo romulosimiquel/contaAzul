@@ -63,18 +63,33 @@ class clientsController extends controller {
 
 		if($user->hasPermission('clients_edit'))
 		{
-			if (isset($_POST['name']) && !empty($_POST['name'])) 
+			$client = new Clients();
+
+			if(isset($_POST['name']) && !empty($_POST['name']))
 			{
-				$c = new Clients();
+				$name 				= addslashes($_POST['name']);
+				$email 				= addslashes($_POST['email']);
+				$phone 				= addslashes($_POST['phone']);
+				$stars 				= addslashes($_POST['stars']);
+				$internal_obs 		= addslashes($_POST['internal_obs']);
+				$address_zipcode 	= addslashes($_POST['address_zipcode']);
+				$address 			= addslashes($_POST['address']);
+				$address_number		= addslashes($_POST['address_number']);
+				$address2 			= addslashes($_POST['address2']);
+				$address_neigh 		= addslashes($_POST['address_neigh']);
+				$address_city 		= addslashes($_POST['address_city']);
+				$address_state		= addslashes($_POST['address_state']);
+				$address_country 	= addslashes($_POST['address_country']);
 
+				$added = $client->add_client($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
+			}
 
-				if($added == true)
-				{
-					$data['success'] = "Permissão inserida com sucesso!";
-				} else
-				{
-					$data['error']	 = "Erro na hora de adicionar permissão!";
-				}
+			if($added == true)
+			{
+				$data['success'] = "Cliente inserido com sucesso!";
+			} else
+			{
+				$data['error']	 = "Erro na hora de adicionar cliente!";
 			}		 	
 
 			$this->loadTemplate('clients_add', $data);

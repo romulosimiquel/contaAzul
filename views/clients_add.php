@@ -26,19 +26,28 @@
 	</br></br>
 
 	<label for="address_zipcode">CEP</label></br>
-	<input type="text" name="zipcode"></input></br>
+	<input type="text" name="address_zipcode"></input></br>
 
 	<label for="address">Rua</label></br>
-	<input type="text" name="address_street"></input></br>
+	<input type="text" name="address"></input></br>
+
+	<label for="address_number">Número</label></br>
+	<input type="text" name="address_number"></input></br>
+
+	<label for="address2">Complemento</label></br>
+	<input type="text" name="address2"></input></br>
 
 	<label for="address_neigh">Bairro</label></br>
-	<input type="text" name="address_street"></input></br>
+	<input type="text" name="address_neigh"></input></br>
 
 	<label for="address_city">Cidade</label></br>
-	<input type="text" name="address_street"></input></br>
+	<input type="text" name="address_city"></input></br>
+
+	<label for="address_state">Estado</label></br>
+	<input type="text" name="address_state"></input></br>
 
 	<label for="address_country">País</label></br>
-	<input type="text" name="address_street"></input></br>
+	<input type="text" name="address_country"></input></br>
 
 	<?php if(isset($error) && !empty($error)) :?>
 		<div class="warning"><?php echo $error?></div>

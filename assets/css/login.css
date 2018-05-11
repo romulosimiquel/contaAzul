@@ -1,7 +1,7 @@
 body
 {
 	margin:0;
-	background-color:#f2f3f4;
+	background-color:#CCCCCC;
 }
 .loginarea
 {
@@ -39,7 +39,7 @@ body
 	font-size:16px;
 	color:#FFF;
 	border-radius:5px;
-	background-color:#232830;
+	background-color:#292C37;
 	border:1px solid #BBB;
 }
 .warning
