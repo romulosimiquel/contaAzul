@@ -33,10 +33,10 @@ class clientsController extends controller {
 
 		if($user->hasPermission('clients_view'))
 		{
-			$c = new Clients();
+			$client = new Clients();
 			$offset = 0;
 
-			$data['clients_list'] 	 = $c->getList($offset);
+			$data['clients_list'] 	 = $client->getClientsList($offset, $user->getCompany());
 			$data['edit_permission'] = $user->hasPermission('clients_edit');
 
 			$this->loadTemplate('clients', $data);
@@ -82,17 +82,68 @@ class clientsController extends controller {
 				$address_country 	= addslashes($_POST['address_country']);
 
 				$added = $client->add_client($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
-			}
 
-			if($added == true)
-			{
-				$data['success'] = "Cliente inserido com sucesso!";
-			} else
-			{
-				$data['error']	 = "Erro na hora de adicionar cliente!";
-			}		 	
+				if($added == true)
+				{
+					$data['success'] = "Cliente inserido com sucesso!";
+				} else
+				{
+					$data['error']	 = "Erro na hora de adicionar cliente!";
+				}
+			} 	
 
 			$this->loadTemplate('clients_add', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('clients', $data);			
+		}
+	}
+
+	public function edit_client($id)
+	{
+		$data = array();
+		$user 		 = new Users();
+		$user->setLoggedUser();
+		$company = new Companies($user->getCompany());
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('clients_edit'))
+		{
+			$client = new Clients();
+
+			if(isset($_POST['name']) && !empty($_POST['name']))
+			{
+				$name 				= addslashes($_POST['name']);
+				$email 				= addslashes($_POST['email']);
+				$phone 				= addslashes($_POST['phone']);
+				$stars 				= addslashes($_POST['stars']);
+				$internal_obs 		= addslashes($_POST['internal_obs']);
+				$address_zipcode 	= addslashes($_POST['address_zipcode']);
+				$address 			= addslashes($_POST['address']);
+				$address_number		= addslashes($_POST['address_number']);
+				$address2 			= addslashes($_POST['address2']);
+				$address_neigh 		= addslashes($_POST['address_neigh']);
+				$address_city 		= addslashes($_POST['address_city']);
+				$address_state		= addslashes($_POST['address_state']);
+				$address_country 	= addslashes($_POST['address_country']);
+
+				$added = $client->add_client($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
+
+				if($added == true)
+				{
+					$data['success'] = "Cliente inserido com sucesso!";
+				} else
+				{
+					$data['error']	 = "Erro na hora de adicionar cliente!";
+				}
+			} 	
+
+			$data['client_info'] = $client->getClientData($id, $user->getCompany());
+
+			$this->loadTemplate('clients_edit', $data);
 		} else
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';

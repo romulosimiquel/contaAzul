@@ -1,5 +1,11 @@
 <h1>Clients - Adicionar</h1>
 
+	<?php if(isset($error) && !empty($error)) :?>
+		<div class="warning"><?php echo $error?></div>
+	<?php elseif(isset($success) && !empty($success)) :?>
+		<div class="success"><?php echo $success?></div>
+	<?php endif;?>
+
 <form method="POST">
 	<label for="name">Nome do Cliente</label></br>
 	<input type="text" name="name" required></input></br>
@@ -49,11 +55,6 @@
 	<label for="address_country">País</label></br>
 	<input type="text" name="address_country"></input></br>
 
-	<?php if(isset($error) && !empty($error)) :?>
-		<div class="warning"><?php echo $error?></div>
-	<?php elseif(isset($success) && !empty($success)) :?>
-		<div class="success"><?php echo $success?></div>
-	<?php endif;?>
 	<input class="button" type="submit" value="Adicionar" />
 </form>
 
