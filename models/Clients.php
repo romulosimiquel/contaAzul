@@ -33,6 +33,20 @@ class Clients extends model{
 		return $array;
 	}
 
+	public function getClientsCount($id_company)
+	{
+		$r = 0;
+
+		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM clients WHERE id_company = :id_company");
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
+		$row = $sql->fetch();
+
+		$r = $row['c'];
+
+		return $r;
+	}
+
 	public function add_client($id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country)
 	{
 		$sql = $this->db->prepare("INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neigh = :address_neigh, address_city = :address_city, address_state = :address_state, address_country = :address_country");
@@ -63,11 +77,12 @@ class Clients extends model{
 		}
 	}
 
-	public function edit_client($id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country)
+	public function edit_client($id, $id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country)
 	{
-		$sql = $this->db->prepare("INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neigh = :address_neigh, address_city = :address_city, address_state = :address_state, address_country = :address_country");
+		$sql = $this->db->prepare("UPDATE clients SET name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neigh = :address_neigh, address_city = :address_city, address_state = :address_state, address_country = :address_country WHERE id = :id AND id_company = :id_company");
 
 		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':id', $id);
 		$sql->bindValue(':name', $name);
 		$sql->bindValue(':email', $email);
 		$sql->bindValue(':phone', $phone);
@@ -93,7 +108,14 @@ class Clients extends model{
 		}
 	}
 
+	public function delete_client($id, $id_company)
+	{
+		echo "TEM QUE FAZER MAIS COISA ANTES DE FAZER O DELETE";
+	}
 
+	public function searchClientByName($name, $id_company)
+	{
 
+	}
 
 }

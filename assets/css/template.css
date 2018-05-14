@@ -203,3 +203,60 @@ table td
 	height:25px;
 	line-height:20px;
 }
+.pagination
+{
+	margin-top:30px;
+	margin-bottom:30px;
+}
+.pag_item
+{
+	width:30px;
+	height:20px;
+	float:left;
+	border:1px solid #000;
+	border-radius:5px;
+	margin-right:3px;
+	text-align:center;
+	line-height:20px;
+}
+.pag_item a
+{
+	color:#000;
+	text-decoration:none;
+}
+.pag_active
+{
+	background-color:#292C37;
+	color:#FFF;
+}
+.pag_active a
+{
+	color:#FFF;
+}
+.pag_button
+{
+	width:30px;
+	height:20px;
+	float:left;
+	border:1px solid #000;
+	border-radius:5px;
+	margin-right:3px;
+	text-align:center;
+	line-height:20px;
+}
+.pag_button a
+{
+	text-decoration:none;
+	color:#FFF;
+}
+#search
+{
+	width:100px;
+	float:right;
+	background-image:url('../images/search.png');
+	background-repeat:no-repeat;
+	background-size:15px 15px;
+	background-position:5px;
+	padding-left:25px;
+	border:1px solid #CCC;
+}

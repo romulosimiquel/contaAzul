@@ -36,7 +36,21 @@ class clientsController extends controller {
 			$client = new Clients();
 			$offset = 0;
 
+			$data['p'] = 1;
+			if(isset($_GET['p']) && !empty($_GET['p']))
+			{
+				$data['p'] = intval($_GET['p']);
+				if($data['p'] == 0)
+				{
+					$data['p'] = 1;
+				}
+			}
+
+			$offset = (10 * ($data['p']-1));
+
 			$data['clients_list'] 	 = $client->getClientsList($offset, $user->getCompany());
+			$data['clients_count']	 = $client->getClientsCount($user->getCompany());
+			$data['p_count'] 		 = ceil( $data['clients_count'] / 10);
 			$data['edit_permission'] = $user->hasPermission('clients_edit');
 
 			$this->loadTemplate('clients', $data);
@@ -130,7 +144,7 @@ class clientsController extends controller {
 				$address_state		= addslashes($_POST['address_state']);
 				$address_country 	= addslashes($_POST['address_country']);
 
-				$added = $client->add_client($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
+				$added = $client->edit_client($id, $user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
 
 				if($added == true)
 				{
@@ -151,4 +165,30 @@ class clientsController extends controller {
 		}
 	}
 
+	public function delete_client($id_client)
+	{
+		$data = array();
+		$user 		 = new Users();
+		$user->setLoggedUser();
+		$company = new Companies($user->getCompany());
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('clients_edit'))
+		{
+			$client = new Clients();
+
+			if(isset($id_client) && !empty($id_client))
+			{
+				$client->delete_client($id_client, $user->getCompany());
+
+				header("Location: ".BASE."clients");
+			} 
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('clients', $data);			
+		}
+	}
 }

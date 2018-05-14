@@ -4,6 +4,7 @@
         <title>Painel - <?php echo $viewData['company_name']?></title>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE?>assets/css/template.css">
         <script type="text/javascript" src="<?php echo BASE; ?>assets/js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript">var BASE = '<?php echo BASE ?>'</script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
         <script type="text/javascript" src="<?php echo BASE; ?>assets/js/script.js"></script>   
     </head>

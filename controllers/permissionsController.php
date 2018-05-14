@@ -150,7 +150,7 @@ class permissionsController extends controller {
 
 			if(isset($id_param) && !empty($id_param))
 			{	
-				$deleted = $permissions->delete_param($id_param);
+				$permissions->delete_param($id_param);
 
 				header("Location: ".BASE."permissions");
 			}

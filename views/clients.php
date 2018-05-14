@@ -8,7 +8,7 @@
     <div class="button"><a href="<?php echo BASE ?>clients/add_client">Adicionar Cliente</a></div>
 <?php  endif; ?>
 
-
+<input type="text" id="search" data-type="search_clients"/>
 		
 
 <table border="0" width="100%">
@@ -38,5 +38,58 @@
 	<?php endforeach; ?>
 </table>
 
+<div class="pagination">
+	<?php if ($p > 1): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p-1; ?>"><div class="pag_button"><?php echo '<' ?></div></a>
+	<?php endif; ?>
 
+	<?php if ($p > 2): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo 1; ?>"><div class="pag_button"><?php echo '1' ?></div></a>
+		<div class="pag_button"><?php echo '...' ?></div>
+	<?php endif; ?>
+
+	<?php if ($p > 1): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p-1; ?>"><div class="pag_button"><?php echo ($p-1) ?></div></a>
+	<?php endif; ?>
+
+	<a href="<?php echo BASE ?>clients/?p=<?php echo $p; ?>"><div class="pag_item pag_active"><?php echo $p ?></div></a>
+
+	<?php if ($p < $p_count && $p != $p_count-1): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p+1; ?>"><div class="pag_button"><?php echo ($p+1) ?></div></a>
+	<?php endif; ?>
+
+	<?php if (($p < $p_count) && ($p_count-1 > $p)): ?>
+		<div class="pag_button"><?php echo '...'?></div>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p_count; ?>"><div class="pag_button"><?php echo $p_count ?></div></a>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p+1; ?>"><div class="pag_button"><?php echo '>' ?></div></a>
+	<?php elseif($p != $p_count): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p_count; ?>"><div class="pag_button"><?php echo $p_count ?></div></a>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p+1; ?>"><div class="pag_button"><?php echo '>' ?></div></a>
+	<?php endif; ?>
+</br>
+</br>
+</br>
+
+<div class="pagination">
+	<?php if ($p > 1): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo 0; ?>"><div class="pag_button"><?php echo '<<' ?></div></a>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p-1; ?>"><div class="pag_button"><?php echo '<' ?></div></a>
+	<?php endif; ?>
+
+	<a href="<?php echo BASE ?>clients/?p=<?php echo $p; ?>"><div class="pag_item pag_active"><?php echo $p ?></div></a>
+	
+	<?php if ($p < $p_count): ?>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p+1; ?>"><div class="pag_button"><?php echo '>'?></div></a>
+		<a href="<?php echo BASE ?>clients/?p=<?php echo $p_count; ?>"><div class="pag_button"><?php echo '>>'?></div></a>
+	<?php endif; ?>
+</br>
+</br>
+</br>
+
+<div class="pagination">
+<?php for($i=1; $i <= $p_count; $i++):?>
+	<a href="<?php echo BASE ?>clients/?p=<?php echo $i; ?>"><div class="pag_item <?php echo ($i==$p)?'pag_active':''?>"><?php echo $i ?></div></a>
+<?php endfor; ?>
+<div style="clear: both;"></div>
+</div>
 <?php endif; ?>
