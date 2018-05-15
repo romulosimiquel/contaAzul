@@ -66,6 +66,7 @@
 		<a href="<?php echo BASE ?>clients/?p=<?php echo $p_count; ?>"><div class="pag_button"><?php echo $p_count ?></div></a>
 		<a href="<?php echo BASE ?>clients/?p=<?php echo $p+1; ?>"><div class="pag_button"><?php echo '>' ?></div></a>
 	<?php endif; ?>
+</div>
 </br>
 </br>
 </br>
@@ -82,6 +83,7 @@
 		<a href="<?php echo BASE ?>clients/?p=<?php echo $p+1; ?>"><div class="pag_button"><?php echo '>'?></div></a>
 		<a href="<?php echo BASE ?>clients/?p=<?php echo $p_count; ?>"><div class="pag_button"><?php echo '>>'?></div></a>
 	<?php endif; ?>
+</div>
 </br>
 </br>
 </br>

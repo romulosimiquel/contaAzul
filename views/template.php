@@ -19,6 +19,7 @@
                     <li><a href="<?php echo BASE ?>permissions">Permissões</a></li>
                     <li><a href="<?php echo BASE ?>users">Usuários</a></li>
                     <li><a href="<?php echo BASE ?>clients">Clients</a></li>
+                    <li><a href="<?php echo BASE ?>inventory">Estoque</a></li>
                 </ul>
             </div>
     	</div>

@@ -30,7 +30,25 @@ class ajaxController extends controller {
 		{
 			$q = addslashes($_GET['q']);
 
-			$data = $client->searchClientByName($q, $user->getCompany());
+			$clients = $client->searchClientByName($q, $user->getCompany());
+
+			if($user->hasPermission('clients_edit'))
+			{
+
+				foreach ($clients as $citem) {
+					$data[] = array(
+						'name' => $citem['name'],
+						'link' => BASE.'clients/edit_client/'.$citem['id']
+					);
+				}
+			} else {
+				foreach ($clients as $citem) {
+					$data[] = array(
+						'name' => $citem['name'],
+						'link' => BASE.'clients/overview_client/'.$citem['id']
+					);
+				}
+			}
 		}
 
 		echo json_encode($data);

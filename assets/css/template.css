@@ -260,3 +260,26 @@ table td
 	padding-left:25px;
 	border:1px solid #CCC;
 }
+.searchresults
+{
+	width:248px;
+	background-color:#FFF;
+	position:absolute;
+	border:1px solid #CCC;
+}
+.si 
+{
+	height:20px;
+	line-height:20px;
+	padding-left:10px;
+	cursor:pointer;
+}
+.si a
+{
+	text-decoration:none;
+	color:#000;
+}
+.si:hover
+{
+	background-color:#EEE;
+}

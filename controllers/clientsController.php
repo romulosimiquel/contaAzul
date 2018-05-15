@@ -35,7 +35,7 @@ class clientsController extends controller {
 		{
 			$client = new Clients();
 			$offset = 0;
-
+			//get wich is the current page, if it's 0 will be 1
 			$data['p'] = 1;
 			if(isset($_GET['p']) && !empty($_GET['p']))
 			{
@@ -45,7 +45,7 @@ class clientsController extends controller {
 					$data['p'] = 1;
 				}
 			}
-
+			//here defines from wich client the list will begin
 			$offset = (10 * ($data['p']-1));
 
 			$data['clients_list'] 	 = $client->getClientsList($offset, $user->getCompany());
@@ -144,9 +144,9 @@ class clientsController extends controller {
 				$address_state		= addslashes($_POST['address_state']);
 				$address_country 	= addslashes($_POST['address_country']);
 
-				$added = $client->edit_client($id, $user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
+				$edited = $client->edit_client($id, $user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
 
-				if($added == true)
+				if($edited == true)
 				{
 					$data['success'] = "Cliente inserido com sucesso!";
 				} else
@@ -158,6 +158,30 @@ class clientsController extends controller {
 			$data['client_info'] = $client->getClientData($id, $user->getCompany());
 
 			$this->loadTemplate('clients_edit', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('clients', $data);			
+		}
+	}
+
+	public function overview_client($id)
+	{
+		$data = array();
+		$user 		 = new Users();
+		$user->setLoggedUser();
+		$company = new Companies($user->getCompany());
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('clients_view'))
+		{
+			$client = new Clients();
+
+			$data['client_info'] = $client->getClientData($id, $user->getCompany());
+
+			$this->loadTemplate('clients_overview', $data);
 		} else
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';

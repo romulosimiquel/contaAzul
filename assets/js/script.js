@@ -23,6 +23,10 @@ $(function(){
 				width:'100px'
 			});
 		}
+		setTimeout(function(){
+			$('.searchresults').hide();
+		}, 500);
+		
 	});	
 
 	$('#search').on('keyup', function(){
@@ -36,9 +40,28 @@ $(function(){
 				data:{q:q},
 				dataType:'json',
 				success:function(json){
+					if( $('.searchresults').length == 0){
+						$('#search').after('<div class="searchresults"></div>')
+					}
 
+					$('.searchresults').css('left', $('#search').offset().left+'px');
+
+					$('.searchresults').css('top', $('#search').offset().top+$('#search').height()+3+'px');
+
+					var html = '';
+
+					for(var i in json){
+						html += '<div class="si"><a href="'+json[i].link+'">'+json[i].name+'</a></div>';
+					}
+
+					$('.searchresults').html(html);
 				}				
 			});
 		}
-	});	
+	});
+
+	$('#search').on('focus', function(){
+		if($(this).val() != '') {
+			$('.searchresults').show();
+	}});
 });
