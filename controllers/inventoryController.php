@@ -53,37 +53,35 @@ class inventoryController extends controller {
 
 	public function add_product()
 	{
-		$data 		= array();
-		$user 		= new Users();
+		$data 			= array();
+		$user 			= new Users();
 		$user->setLoggedUser();
-		$company 	= new Companies($user->getCompany());
-		$permissions= new Permissions();
+		$company 		= new Companies($user->getCompany());
 
 		$data['company_name'] = $company->getCompanyName();
 		$data['user_name']	  = $user->getUserName();
 
 		if($user->hasPermission('inventory_add'))
 		{	
-			$permissions = new Permissions();
+			$inv = new Inventory();
 
 			if(isset($_POST['name']) && !empty($_POST['name']))
 			{
 				$name 		= addslashes($_POST['name']);
-				$quant 		= addslashes($_POST['quant']));
+				$quant 		= addslashes($_POST['quant']);
 				$min_quant  = addslashes($_POST['min_quant']);
 				$price 		= addslashes($_POST['price']);
 
-				$added = $user->add_product($name, $quant, $min_quant, $price, $user->getCompany());
+				$price 		= str_replace(',', '.', $price);
+
+				$added = $inv->add_product($name, $quant, $min_quant, $price, $user->getCompany(), $user->getID());
 
 				if($added == true)
 				{
 					$data['success'] = "Usuário adicionado com sucesso!";
-				} elseif ($added == '0') 
-				{
-					$data['error'] = "Usuário já existe";
 				}else
 				{
-					$data['error']	 = "Erro na hora de adicionar usuário!";
+					$data['error']	= "Erro na hora de adicionar usuário!";
 				}
 			}
 

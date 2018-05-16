@@ -20,8 +20,9 @@ $('input[name=address_zipcode]').on('blur', function(){
 				}
 			}
 		}
-	});	
+	});
 });
 
 jQuery('input[name=phone]').mask('(00) 0000-00009', {'translation': {0: {pattern: /[0-9*]/}}});
 jQuery('input[name=address_zipcode]').mask('00000-000', {'translation': {0: {pattern: /[0-9*]/}}});
+//jQuery('input[name=price]').mask('', {'translation': {0: {pattern: /[0-9*]/}}});
