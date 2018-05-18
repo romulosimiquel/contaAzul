@@ -189,7 +189,7 @@ class clientsController extends controller {
 		}
 	}
 
-	public function delete_client($id_client)
+	public function delete_client($id)
 	{
 		$data = array();
 		$user 		 = new Users();
@@ -203,9 +203,9 @@ class clientsController extends controller {
 		{
 			$client = new Clients();
 
-			if(isset($id_client) && !empty($id_client))
+			if(isset($id) && !empty($id))
 			{
-				$client->delete_client($id_client, $user->getCompany());
+				$client->delete_client($id, $user->getCompany());
 
 				header("Location: ".BASE."clients");
 			} 

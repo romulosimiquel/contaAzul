@@ -72,16 +72,18 @@ class inventoryController extends controller {
 				$min_quant  = addslashes($_POST['min_quant']);
 				$price 		= addslashes($_POST['price']);
 
-				$price 		= str_replace(',', '.', $price);
-
+				//to change brasilian numeral format to international numeral format, if already using intenational pattern coment this function
+				$price	= str_replace('.', '', $price);
+				$price 	= str_replace(',', '.', $price);
+ 
 				$added = $inv->add_product($name, $quant, $min_quant, $price, $user->getCompany(), $user->getID());
 
 				if($added == true)
 				{
-					$data['success'] = "Usuário adicionado com sucesso!";
+					$data['success'] = "Produto adicionado com sucesso!";
 				}else
 				{
-					$data['error']	= "Erro na hora de adicionar usuário!";
+					$data['error']	= "Erro na hora de adicionar produto!";
 				}
 			}
 
@@ -90,6 +92,74 @@ class inventoryController extends controller {
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';
 			$this->loadTemplate('users', $data);			
+		}
+	}
+
+	public function edit_product($id)
+	{
+		$data 		 = array();
+		$user 		 = new Users();
+		$user->setLoggedUser();
+		$company 	 = new Companies($user->getCompany());
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('inventory_edit'))
+		{
+			$inv = new Inventory();
+
+			if(isset($_POST['name']) && !empty($_POST['name']))
+			{
+				$name 		= addslashes($_POST['name']);
+				$quant 		= addslashes($_POST['quant']);
+				$min_quant  = addslashes($_POST['min_quant']);
+				$price 		= addslashes($_POST['price']);
+
+				$price	= str_replace('.', '', $price);
+				$price 	= str_replace(',', '.', $price);
+
+				$edited = $inv->edit_product($name, $quant, $min_quant, $price, $id, $user->getCompany(), $user->getID());
+
+				if($edited == true)
+				{
+					$data['success'] = "Produto alterado com sucesso!";
+				} else
+				{
+					$data['error']	 = "Erro na hora de adicionar produto!";
+				}
+			} 	
+
+			$data['product_info'] = $inv->getInvData($id, $user->getCompany());
+
+			$this->loadTemplate('inventory_edit', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('inventory', $data);			
+		}
+	}
+
+	public function delete_product($id)
+	{
+		$data = array();
+		$user = new Users();
+		$user->setLoggedUser();
+
+		if($user->hasPermission('inventory_edit'))
+		{
+			$inv = new Inventory();
+
+			if(isset($id) && !empty($id))
+			{
+				$inv->delete_product($id, $user->getCompany(), $user->getID());
+
+				header("Location: ".BASE."inventory");
+			} 
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('inventory', $data);			
 		}
 	}
 
