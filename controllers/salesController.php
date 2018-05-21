@@ -47,4 +47,28 @@ class salesController extends controller {
 
 	}
 
+	public function add_sell()
+	{
+		$data 		= array();
+		$user 		= new Users();
+		$user->setLoggedUser();
+		$company 	= new Companies($user->getCompany());
+		$permissions= new Permissions();
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('sales_view'))
+		{
+			$sale   = new Sales();
+
+
+			$this->loadTemplate('sales_add', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('sales', $data);			
+		}
+	}
+
 }

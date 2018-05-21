@@ -49,8 +49,38 @@ class ajaxController extends controller {
 					);
 				}
 			}
+			echo json_encode($data);
+		}
+	}
+
+	public function search_inventory()
+	{
+		$data 		= array();
+		$user 		= new Users();
+		$user->setLoggedUser();
+		$permissions= new Permissions();
+		$inv 	= new Inventory();
+
+		if(isset($_GET['q']) && !empty($_GET['q']))
+		{
+			$q = addslashes($_GET['q']);
+
+			$prod = $inv->searchProdByName($q, $user->getCompany());
+
+			if($user->hasPermission('inventory_view'))
+			{
+
+				foreach ($prod as $pitem) {
+					$data[] = array(
+						'name' => $pitem['name'],
+						'link' => BASE.'inventory/edit_product/'.$pitem['id']
+					);
+				}
+			}
 		}
 
 		echo json_encode($data);
 	}
+
+	
 }

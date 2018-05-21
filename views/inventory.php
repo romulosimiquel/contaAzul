@@ -7,6 +7,7 @@
 <?php if($edit_permission == true):?>
     <div class="button"><a href="<?php echo BASE ?>inventory/add_product">Adicionar Produto</a></div>
 <?php  endif; ?>
+<input type="text" id="search" data-type="search_inventory"/>
 
 <table border="0" width="100%">
 
