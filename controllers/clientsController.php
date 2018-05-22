@@ -97,7 +97,7 @@ class clientsController extends controller {
 
 				$added = $client->add_client($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
 
-				if($added == true)
+				if($added != false)
 				{
 					$data['success'] = "Cliente inserido com sucesso!";
 				} else

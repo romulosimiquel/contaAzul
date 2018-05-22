@@ -284,3 +284,23 @@ table td
 {
 	background-color:#EEE;
 }
+#client_name
+{
+	width:250px;
+}
+
+.client_add_button
+{
+	height:40px;
+	border:0px;
+	line-height:40px;
+	padding-left:20px;
+	padding-right:20px;
+	color:#FFF;
+	font-size:13px;
+	border-radius:5px;
+	background-color:#292C37;
+	border:1px solid #292C37;
+	cursor:pointer;
+	display:inline-block;
+}

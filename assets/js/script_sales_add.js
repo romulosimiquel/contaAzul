@@ -1,4 +1,35 @@
+function selectClient(obj)
+{
+	var id = $(obj).attr('data-id');
+	var name = $(obj).html();
+
+	$('.searchresults').hide();
+	$('#client_name').val(name);
+	$('#client_name').attr('data-id', id);
+}
 $(function(){
+
+	$('.client_add_button').on('click', function(e){
+		e.preventDefault();
+
+		var name = $('#client_name').val();
+		if(name != '' && name.length >= 3){
+
+			if(confirm('Você deseja adicionar um cliente com nome: '+name+' ?')){
+
+				$.ajax({
+					url:BASE+'ajax/add_client',
+					type:'POST',
+					data:{name:name},
+					dataType:'json',
+					success:function(json) {
+						$('.searchresults').hide();
+						$('#client_name').attr('data-id', json.id);
+					}
+				});
+			}
+		}
+	});
 
 	$('#client_name').on('keyup', function(){
 		var datatype = $(this).attr('data-type');
@@ -22,7 +53,7 @@ $(function(){
 					var html = '';
 
 					for(var i in json){
-						html += '<div class="si">'+json[i].name+'</div>';
+						html += '<div class="si" onclick="selectClient(this)" data-id="'+json[i].id+'">'+json[i].name+'</div>';
 					}
 
 					$('.searchresults').html(html);
