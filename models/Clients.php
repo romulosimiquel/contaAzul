@@ -47,7 +47,7 @@ class Clients extends model{
 		return $r;
 	}
 
-	public function add_client($id_company, $name, $email = '', $phone = '', $stars = '3', $internal_obs = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neigh = '', $address_city = '', $address_state = '', $address_country = '')
+	public function addClient($id_company, $name, $email = '', $phone = '', $stars = '3', $internal_obs = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neigh = '', $address_city = '', $address_state = '', $address_country = '')
 	{
 		$sql = $this->db->prepare("INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neigh = :address_neigh, address_city = :address_city, address_state = :address_state, address_country = :address_country");
 
@@ -77,7 +77,7 @@ class Clients extends model{
 		}
 	}
 
-	public function edit_client($id, $id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country)
+	public function editClient($id, $id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country)
 	{
 		$sql = $this->db->prepare("UPDATE clients SET name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neigh = :address_neigh, address_city = :address_city, address_state = :address_state, address_country = :address_country WHERE id = :id AND id_company = :id_company");
 
@@ -108,7 +108,7 @@ class Clients extends model{
 		}
 	}
 
-	public function delete_client($id, $id_company)
+	public function deleteClient($id, $id_company)
 	{
 		echo "TEM QUE FAZER MAIS COISA ANTES DE FAZER O DELETE";
 	}

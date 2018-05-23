@@ -65,7 +65,7 @@ class usersController extends controller {
 				$name  = addslashes($_POST['name']);
 				$group = addslashes($_POST['group_name']);
 
-				$added = $user->add_user($email, $pass, $name, $group, $user->getCompany());
+				$added = $user->addUser($email, $pass, $name, $group, $user->getCompany());
 
 				if($added == true)
 				{
@@ -114,7 +114,7 @@ class usersController extends controller {
 				$name  = addslashes($_POST['name']);
 				$group = addslashes($_POST['group_name']);
 
-				$edited = $user->edit_user($id, $pass, $name, $group, $user->getCompany());
+				$edited = $user->editUser($id, $pass, $name, $group, $user->getCompany());
 
 				if($edited == true)
 				{
@@ -153,7 +153,7 @@ class usersController extends controller {
 
 			if(isset($id) && !empty($id))
 			{
-				$user->delete_user($id, $user->getCompany());
+				$user->deleteUser($id, $user->getCompany());
 
 				header("Location: ".BASE."users");
 			} else

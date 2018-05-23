@@ -94,7 +94,7 @@ class ajaxController extends controller {
 		{
 			$name 				= addslashes($_POST['name']);
 
-			$data['client_id'] 	= $client->add_client($user->getCompany(), $name);
+			$data['client_id'] 	= $client->addClient($user->getCompany(), $name);
 
 		}
 

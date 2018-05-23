@@ -66,7 +66,7 @@ class permissionsController extends controller {
 			{
 				$pname = addslashes($_POST['name']);
 
-				$added = $permissions->add_param($pname, $user->getCompany());
+				$added = $permissions->addParam($pname, $user->getCompany());
 
 				if($added == true)
 				{
@@ -110,7 +110,7 @@ class permissionsController extends controller {
 				$gname = addslashes($_POST['name']);
 				$plist = $_POST['permissions'];
 
-				$added = $permissions->add_group($gname, $plist, $user->getCompany());
+				$added = $permissions->addGroup($gname, $plist, $user->getCompany());
 
 				if($added == true)
 				{
@@ -150,7 +150,7 @@ class permissionsController extends controller {
 
 			if(isset($id_param) && !empty($id_param))
 			{	
-				$permissions->delete_param($id_param);
+				$permissions->deleteParam($id_param);
 
 				header("Location: ".BASE."permissions");
 			}
@@ -178,7 +178,7 @@ class permissionsController extends controller {
 
 			if(isset($id_group) && !empty($id_group))
 			{	
-				$deleted = $permissions->delete_group($id_group);
+				$deleted = $permissions->deleteGroup($id_group);
 
 				header("Location: ".BASE."permissions");
 			} else
@@ -211,7 +211,7 @@ class permissionsController extends controller {
 				$gname = addslashes($_POST['group_name']);
 				$plist = $_POST['permissions'];
 
-				$edited = $permissions->edit_group($gname, $plist, $id, $user->getCompany());
+				$edited = $permissions->editGroup($gname, $plist, $id, $user->getCompany());
 
 				if($edited == true)
 				{

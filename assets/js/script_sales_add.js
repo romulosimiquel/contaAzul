@@ -1,12 +1,3 @@
-function selectClient(obj)
-{
-	var id = $(obj).attr('data-id');
-	var name = $(obj).html();
-
-	$('.searchresults').hide();
-	$('#client_name').val(name);
-	$('#client_name').attr('data-id', id);
-}
 $(function(){
 
 	$('.client_add_button').on('click', function(e){
@@ -24,7 +15,8 @@ $(function(){
 					dataType:'json',
 					success:function(json) {
 						$('.searchresults').hide();
-						$('#client_name').attr('data-id', json.id);
+						$('input[name=client_id]').val(json.id);
+
 					}
 				});
 			}
@@ -62,8 +54,33 @@ $(function(){
 		}
 	});
 
+	// $('#client_name').on('blur', function(){
+	// 	setTimeout(function(){
+	// 		$('.searchresults').hide();
+	// 	}, 100);	
+	// });
+
 	$('#client_name').on('focus', function(){
 		if($(this).val() != '') {
 			$('.searchresults').show();
 	}});
+
+
+	$('input[name=total_price]').maskMoney({prefix:'R$ ',thousands:'.', decimal:',', affixesStay: false});
 });
+
+function selectClient(obj)
+{
+	var id = $(obj).attr('data-id');
+	var name = $(obj).html();
+
+	$('.searchresults').hide();
+	$('#client_name').val(name);
+	$('input[name=client_id]').val(json.id);
+
+	$('#client_name').on('blur', function(){
+		setTimeout(function(){
+			$('.searchresults').hide();
+		}, 100);	
+	});
+}

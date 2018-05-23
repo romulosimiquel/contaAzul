@@ -76,7 +76,7 @@ class inventoryController extends controller {
 				$price	= str_replace('.', '', $price);
 				$price 	= str_replace(',', '.', $price);
  
-				$added = $inv->add_product($name, $quant, $min_quant, $price, $user->getCompany(), $user->getID());
+				$added = $inv->addProduct($name, $quant, $min_quant, $price, $user->getCompany(), $user->getID());
 
 				if($added == true)
 				{
@@ -119,7 +119,7 @@ class inventoryController extends controller {
 				$price	= str_replace('.', '', $price);
 				$price 	= str_replace(',', '.', $price);
 
-				$edited = $inv->edit_product($name, $quant, $min_quant, $price, $id, $user->getCompany(), $user->getID());
+				$edited = $inv->editProduct($name, $quant, $min_quant, $price, $id, $user->getCompany(), $user->getID());
 
 				if($edited == true)
 				{
@@ -152,7 +152,7 @@ class inventoryController extends controller {
 
 			if(isset($id) && !empty($id))
 			{
-				$inv->delete_product($id, $user->getCompany(), $user->getID());
+				$inv->deleteProduct($id, $user->getCompany(), $user->getID());
 
 				header("Location: ".BASE."inventory");
 			} 

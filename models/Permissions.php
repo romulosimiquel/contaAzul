@@ -100,7 +100,7 @@ class Permissions extends model {
 		return $array;
 	}
 
-	public function add_param($name, $id_company)
+	public function addParam($name, $id_company)
 	{
 		$sql = $this->db->prepare("INSERT INTO permission_params SET name = :name, id_company = :id_company");
 		$sql->bindValue(':name', $name);
@@ -116,7 +116,7 @@ class Permissions extends model {
 		}
 	}
 
-	public function add_group($name, $plist, $id_company)
+	public function addGroup($name, $plist, $id_company)
 	{
 		$params = implode(',', $plist);
 
@@ -136,7 +136,7 @@ class Permissions extends model {
 
 	}
 
-	public function delete_param($id)
+	public function deleteParam($id)
 	{
 		$sql = $this->db->prepare("DELETE FROM permission_params WHERE id = :id");
 		$sql->bindValue(':id', $id);
@@ -155,7 +155,7 @@ class Permissions extends model {
 		}
 	}
 
-	public function edit_group($name, $plist, $id, $id_company)
+	public function editGroup($name, $plist, $id, $id_company)
 	{
 		$params = implode(',', $plist);
 

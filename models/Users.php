@@ -146,7 +146,7 @@ class Users extends model {
 		}
 	}
 
-	public function add_user($email, $password, $name, $id_group, $id_company)
+	public function addUser($email, $password, $name, $id_group, $id_company)
 	{
 		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM users WHERE email = :email");
 		$sql->bindValue(':email', $email);
@@ -177,7 +177,7 @@ class Users extends model {
 		}
 	}
 
-	public function edit_user($id, $password, $name, $id_group, $id_company)
+	public function editUser($id, $password, $name, $id_group, $id_company)
 	{
 		$sql = $this->db->prepare("UPDATE users SET name = :name, id_group = :id_group WHERE id = :id AND id_company = :id_company");
 		$sql->bindValue(':name', $name);
@@ -204,7 +204,7 @@ class Users extends model {
 		}
 	}
 
-	public function delete_user($id, $id_company)
+	public function deleteUser($id, $id_company)
 	{	
 		$sql = $this->db->prepare("SELECT id_company FROM users WHERE id = :id");
 		$sql->bindValue(':id', $id);

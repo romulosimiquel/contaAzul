@@ -45,7 +45,7 @@ class Inventory extends model{
 		$sql->execute();
 	}
 
-	public function add_product($name, $quant, $min_quant, $price, $id_company, $id_user)
+	public function addProduct($name, $quant, $min_quant, $price, $id_company, $id_user)
 	{
 		$sql = $this->db->prepare("INSERT INTO inventory SET name = :name, quant = :quant, min_quant = :min_quant, price = :price, id_company = :id_company");
 		$sql->bindValue(':name', $name);
@@ -69,7 +69,7 @@ class Inventory extends model{
 		}
 	}
 
-	public function edit_product($name, $quant, $min_quant, $price, $id_product, $id_company, $id_user)
+	public function editProduct($name, $quant, $min_quant, $price, $id_product, $id_company, $id_user)
 	{
 		$sql = $this->db->prepare("UPDATE inventory SET name = :name, quant = :quant, min_quant = :min_quant, price = :price WHERE id_company = :id_company AND id = :id_product");
 		$sql->bindValue(':name', $name);
@@ -92,7 +92,7 @@ class Inventory extends model{
 		}
 	}
 
-	public function delete_product($id_product, $id_company, $id_user)
+	public function deleteProduct($id_product, $id_company, $id_user)
 	{	
 
 		$sql = $this->db->prepare("DELETE FROM inventory WHERE id = :id_product AND id_company = :id_company");

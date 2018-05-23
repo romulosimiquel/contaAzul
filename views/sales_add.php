@@ -2,10 +2,23 @@
 
 <form method="POST">
 	<label for="client_name">Nome do Cliente</label></br>
+	<input type="hidden" name="client_id" />
 	<input type="text" name="client_name" id="client_name" data-type="search_clients"/>
 	<button class="client_add_button">+</button>
+	<div style="clear:both;"></div>
 	<br><br>
 
+	<label for="status">Status da venda</label>
+	<select name="status" id="status">
+		<option value="0">Aguardando Pgto.</option>
+		<option value="1">Pago</option>
+		<option value="2">Cancelado</option>
+	</select><br/><br/>
+
+		<label for="total_price">Preço de Venda</label></br>	
+	<input type="text" min="0" name="total_price"></input></br>
+
+	<input class="button" type="submit" value="Adicionar Venda" />
 	
 
 
@@ -13,4 +26,5 @@
 
 
 
-<script type="text/javascript" src="<?php echo BASE; ?>assets/js/script_sales_add.js"></script>
+<script type="text/javascript" src="<?php echo BASE;?>assets/js/jquery.maskMoney.js"></script>
+<script type="text/javascript" src="<?php echo BASE;?>assets/js/script_sales_add.js"></script>

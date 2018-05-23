@@ -17,7 +17,16 @@ class Sales extends model{
 		return $array;
 	}
 
-
+	public function addSell($id_company, $id_user, $id_client, $status, $total_price)
+	{
+		$sql = $this->db->prepare("INSERT INTO sales SET id_company = :id_company, id_client = :id_client, id_user = :id_user, total_price = :total_price, status = :status, date_sale = NOW()");
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':id_client', $id_client);
+		$sql->bindValue(':id_user', $id_user);
+		$sql->bindValue(':total_price', $total_price);
+		$sql->bindValue(':status', $status);
+		$sql->execute();
+	}
 
 
 }

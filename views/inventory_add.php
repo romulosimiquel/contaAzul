@@ -8,16 +8,16 @@
 
 <form method="POST">
 	<label for="name">Nome do produto</label></br>
-	<input type="text" name="name" required></input></br>
+	<input type="text" name="name" required/></br>
 
 	<label for="price">Preço</label></br>	
-	<input type="text" min="0" name="price"></input></br>
+	<input type="text" min="0" name="price"/></br>
 
 	<label for="quant">Quantidade</label></br>
-	<input type="number" min="0" name="quant"></input></br>
+	<input type="number" min="0" name="quant"/></br>
 
 	<label for="min_quant">Quantidade Mínima</label></br>
-	<input type="number" min="0" name="min_quant"></input></br>
+	<input type="number" min="0" name="min_quant"/></br>
 	</br></br>
 	
 	<input class="button" type="submit" value="Adicionar" />

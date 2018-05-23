@@ -95,7 +95,7 @@ class clientsController extends controller {
 				$address_state		= addslashes($_POST['address_state']);
 				$address_country 	= addslashes($_POST['address_country']);
 
-				$added = $client->add_client($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
+				$added = $client->addClient($user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
 
 				if($added != false)
 				{
@@ -144,7 +144,7 @@ class clientsController extends controller {
 				$address_state		= addslashes($_POST['address_state']);
 				$address_country 	= addslashes($_POST['address_country']);
 
-				$edited = $client->edit_client($id, $user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
+				$edited = $client->editClient($id, $user->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neigh, $address_city, $address_state, $address_country);
 
 				if($edited == true)
 				{
@@ -205,7 +205,7 @@ class clientsController extends controller {
 
 			if(isset($id) && !empty($id))
 			{
-				$client->delete_client($id, $user->getCompany());
+				$client->deleteClient($id, $user->getCompany());
 
 				header("Location: ".BASE."clients");
 			} 

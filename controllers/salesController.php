@@ -62,6 +62,17 @@ class salesController extends controller {
 		{
 			$sale   = new Sales();
 
+			if(isset($_POST['client_id']) && !empty($_POST['client_id']))
+			{
+
+				$id_client 		= addslashes($_POST['client_id']);
+				$status 		= addslashes($_POST['status']);
+				$total_price 	= addslashes($_POST['total_price']);
+
+				$sale->addSell($user->getCompany(), $user->getId(), $id_client, $status, $total_price);
+
+				header('Location: '.BASE.'sales');
+			}
 
 			$this->loadTemplate('sales_add', $data);
 		} else
