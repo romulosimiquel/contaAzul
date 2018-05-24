@@ -18,7 +18,7 @@
 	<tr>
 		<td><?php echo $sales_item['name'] ?></td>
 		<td><?php echo date('d/m/Y', strtotime($sales_item['date_sale'])) ?></td>
-		<td><?php echo $sales_item['status'] ?></td>
+		<td><?php echo $sale_status[$sales_item['status']] ?></td>
 		<td><?php echo number_format($sales_item['total_price'], 2, ',', '.') ?></td>
 		<td>
 			

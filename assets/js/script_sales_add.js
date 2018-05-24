@@ -1,3 +1,13 @@
+function selectClient(obj)
+{
+	var id = $(obj).attr('data-id');
+	var name = $(obj).html();
+
+	$('.searchresults').hide();
+	$('#client_name').val(name);
+	$('input[name=client_id]').val(id);
+}
+
 $(function(){
 
 	$('.client_add_button').on('click', function(e){
@@ -68,19 +78,3 @@ $(function(){
 
 	$('input[name=total_price]').maskMoney({prefix:'R$ ',thousands:'.', decimal:',', affixesStay: false});
 });
-
-function selectClient(obj)
-{
-	var id = $(obj).attr('data-id');
-	var name = $(obj).html();
-
-	$('.searchresults').hide();
-	$('#client_name').val(name);
-	$('input[name=client_id]').val(json.id);
-
-	$('#client_name').on('blur', function(){
-		setTimeout(function(){
-			$('.searchresults').hide();
-		}, 100);	
-	});
-}

@@ -37,6 +37,11 @@ class salesController extends controller {
 			$offset = 0;
 
 			$data['sales_list'] = $sale->getSalesList($offset, $user->getCompany());
+			$data['sale_status']= array(
+				'0' => 'Aguardando Pagto.',
+				'1' => 'Pago',
+				'2' => 'Cancelado'
+			);
 
 			$this->loadTemplate('sales', $data);
 		} else
@@ -68,6 +73,9 @@ class salesController extends controller {
 				$id_client 		= addslashes($_POST['client_id']);
 				$status 		= addslashes($_POST['status']);
 				$total_price 	= addslashes($_POST['total_price']);
+
+				$total_price	= str_replace('.', '', $total_price);
+				$total_price 	= str_replace(',', '.', $total_price);
 
 				$sale->addSell($user->getCompany(), $user->getId(), $id_client, $status, $total_price);
 
