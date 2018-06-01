@@ -72,8 +72,10 @@ class ajaxController extends controller {
 
 				foreach ($prod as $pitem) {
 					$data[] = array(
-						'name' => $pitem['name'],
-						'link' => BASE.'inventory/edit_product/'.$pitem['id']
+						'name' 	=> $pitem['name'],
+						'id'   	=> $pitem['id'],
+						'price'	=> $pitem['price'],
+						'link' 	=> BASE.'inventory/edit_product/'.$pitem['id']
 					);
 				}
 			}
@@ -81,6 +83,7 @@ class ajaxController extends controller {
 
 		echo json_encode($data);
 	}
+
 
 	public function add_client()
 	{

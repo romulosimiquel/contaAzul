@@ -35,7 +35,7 @@ class Inventory extends model{
 		return $array;
 	}
 
-	public function setLog($id_user, $action, $date_action, $id_company, $id_product)
+	public function setLog($id_user, $action, $id_company, $id_product)
 	{
 		$sql = $this->db->prepare("INSERT INTO inventory_history SET id_product = :id_product, id_user = :id_user, action = :action, date_action = NOW(), id_company = :id_company");
 		$sql->bindValue(':id_product', $id_product);
@@ -57,7 +57,7 @@ class Inventory extends model{
 
 		$id_product = $this->db->lastInsertId();
 
-		$this->setLog($id_user, 'add', $date_action, $id_company, $id_product);
+		$this->setLog($id_user, 'add', $id_company, $id_product);
 
 		if($sql->rowCount() > 0)
 		{
@@ -107,7 +107,7 @@ class Inventory extends model{
 	{
 		$array = array();
 
-		$sql = $this->db->prepare("SELECT name, id FROM inventory WHERE name LIKE :name AND id_company = :id_company LIMIT 10");
+		$sql = $this->db->prepare("SELECT name, id, price FROM inventory WHERE name LIKE :name AND id_company = :id_company LIMIT 10");
 		$sql->bindValue(':name', '%'.$name.'%');
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();

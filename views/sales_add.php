@@ -16,7 +16,29 @@
 	</select><br/><br/>
 
 		<label for="total_price">Preço de Venda</label></br>	
-	<input type="text" min="0" name="total_price"></input></br>
+	<input type="text" min="0" name="total_price" disabled="disabled"></input></br>
+
+	<hr/>
+
+	<h4>Produtos</h4>
+
+	<fieldset>
+		<legend>Adicionar Produto</legend>
+
+		<input type="text" id="add_prod" data-type="search_inventory"/>
+	</fieldset>
+
+	<table border="0" width="100%">
+		<tr>
+			<th>Nome do Produto</th>
+			<th>Quantidade</th>
+			<th>Preço Unitário</th>
+			<th>Sub-Total</th>
+		</tr>
+	</table>
+
+	<hr/>
+
 
 	<input class="button" type="submit" value="Adicionar Venda" />
 	

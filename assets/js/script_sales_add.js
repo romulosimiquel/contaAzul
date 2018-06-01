@@ -8,6 +8,17 @@ function selectClient(obj)
 	$('input[name=client_id]').val(id);
 }
 
+function addProd(obj)
+{
+	var id 		= $(obj).attr('data-id');
+	var name 	= $(obj).html();
+	var price 	= $(obj).attr('data-id');
+
+	$('.searchresults').hide();
+	$('#products_table').append(tr);
+
+}
+
 $(function(){
 
 	$('.client_add_button').on('click', function(e){
@@ -64,6 +75,37 @@ $(function(){
 		}
 	});
 
+	$('#add_prod').on('keyup', function(){
+		var datatype = $(this).attr('data-type');
+		var q = $(this).val();
+
+		if(datatype != ''){
+			$.ajax({
+				url:BASE+'ajax/'+datatype,
+				type:'GET',
+				data:{q:q},
+				dataType:'json',
+				success:function(json){
+					if( $('.searchresults').length == 0){
+						$('#add_prod').after('<div class="searchresults"></div>')
+					}
+
+					$('.searchresults').css('left', $('#add_prod').offset().left+'px');
+
+					$('.searchresults').css('top', $('#add_prod').offset().top+$('#add_prod').height()+3+'px');
+
+					var html = '';
+
+					for(var i in json){
+						html += '<div class="si" onclick="addProd(this)" data-id="'+json[i].id+'" data-price="'+json[i].price+'">'+json[i].name+' - R$ '+json[i].price+'</div>';
+					}
+
+					$('.searchresults').html(html);
+				}				
+			});
+		}
+	});	
+
 	// $('#client_name').on('blur', function(){
 	// 	setTimeout(function(){
 	// 		$('.searchresults').hide();
@@ -71,6 +113,11 @@ $(function(){
 	// });
 
 	$('#client_name').on('focus', function(){
+		if($(this).val() != '') {
+			$('.searchresults').show();
+	}});
+
+	$('#add_prod').on('focus', function(){
 		if($(this).val() != '') {
 			$('.searchresults').show();
 	}});
