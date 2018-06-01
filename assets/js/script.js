@@ -36,7 +36,7 @@ $(function(){
 		if(datatype != ''){
 			$.ajax({
 				url:BASE+'ajax/'+datatype,
-				type:'GET',
+				type:'GET',	
 				data:{q:q},
 				dataType:'json',
 				success:function(json){

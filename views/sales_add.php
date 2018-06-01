@@ -28,12 +28,13 @@
 		<input type="text" id="add_prod" data-type="search_inventory"/>
 	</fieldset>
 
-	<table border="0" width="100%">
+	<table border="0" width="100%" id="products_table">
 		<tr>
 			<th>Nome do Produto</th>
 			<th>Quantidade</th>
 			<th>Preço Unitário</th>
 			<th>Sub-Total</th>
+			<th>Excluir</th>
 		</tr>
 	</table>
 

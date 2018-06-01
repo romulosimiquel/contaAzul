@@ -8,14 +8,73 @@ function selectClient(obj)
 	$('input[name=client_id]').val(id);
 }
 
+function updateSubtotal(obj)
+{
+	var quant = $(obj).val();
+	if(quant <= 0){
+		$(obj).val(1);
+		quant = 1;
+	}
+
+	var price = $(obj).attr('data-price');
+	var subtotal = price * quant;
+
+	subtotal = parseFloat(Math.round(subtotal * 100) / 100).toFixed(2);
+
+	$(obj).closest('tr').find('.subtotal').html('R$ '+subtotal);
+
+	updateTotal();
+}
+
+function updateTotal()
+{
+	var total = 0;
+
+	for(var q=0;q<$('.p_quant').length;q++)
+	{
+		var quant = $('.p_quant').eq(q);
+
+		var price = quant.attr('data-price');
+		var subtotal = price * parseInt(quant.val());
+
+		total += subtotal;
+	}
+
+	total = parseFloat(Math.round(total * 100) / 100).toFixed(2);
+
+	$('input[name=total_price]').val(total);
+}
+
+function excluirProd(obj)
+{
+	$(obj).closest('tr').remove();
+}
+
 function addProd(obj)
 {
 	var id 		= $(obj).attr('data-id');
-	var name 	= $(obj).html();
-	var price 	= $(obj).attr('data-id');
+	var name 	= $(obj).attr('data-name');
+	var price 	= $(obj).attr('data-price');
 
 	$('.searchresults').hide();
-	$('#products_table').append(tr);
+
+	if($('input[name="quant['+id+']"]').length == 0) {
+		var tr = '<tr>'+ 
+					'<td>'+name+'</td>'+
+					'<td>'+
+						'<input type="number" name="quant['+id+']" class="p_quant" value="1" onchange="updateSubtotal(this)" data-price="'+price+'"/>'+
+					'</td>'+ 
+					'<td>R$ '+price+'</td>'+
+					'<td class="subtotal">R$ '+price+'</td>'+ 
+					'<td><div class="button button_small"><a href="javascript:;" onclick="excluirProd(this)">Excluir</a></div></td>'+ 
+				 '</tr>';
+
+		$('#products_table').append(tr);
+	}
+
+	
+	
+	updateTotal();
 
 }
 
@@ -97,7 +156,7 @@ $(function(){
 					var html = '';
 
 					for(var i in json){
-						html += '<div class="si" onclick="addProd(this)" data-id="'+json[i].id+'" data-price="'+json[i].price+'">'+json[i].name+' - R$ '+json[i].price+'</div>';
+						html += '<div class="si" onclick="addProd(this)" data-id="'+json[i].id+'" data-price="'+json[i].price+'" data-name="'+json[i].name+'">'+json[i].name+' - R$ '+json[i].price+'</div>';
 					}
 
 					$('.searchresults').html(html);
@@ -120,7 +179,7 @@ $(function(){
 	$('#add_prod').on('focus', function(){
 		if($(this).val() != '') {
 			$('.searchresults').show();
-	}});
+	}});	
 
 
 	$('input[name=total_price]').maskMoney({prefix:'R$ ',thousands:'.', decimal:',', affixesStay: false});

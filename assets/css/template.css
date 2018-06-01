@@ -304,3 +304,9 @@ table td
 	cursor:pointer;
 	display:inline-block;
 }
+.p_quant
+{
+	margin-right:3px;
+	margin-left:3px;
+	width:60px !important;
+}
