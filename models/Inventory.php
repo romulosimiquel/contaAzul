@@ -80,7 +80,7 @@ class Inventory extends model{
 		$sql->bindValue(':id_product', $id_product);
 		$sql->execute();
 
-		$this->setLog($id_user, 'edit', $date_action, $id_company, $id_product);
+		$this->setLog($id_user, 'edit', $id_company, $id_product);
 
 		if($sql->rowCount() > 0)
 		{
@@ -100,7 +100,7 @@ class Inventory extends model{
 		$sql->bindValue(':id_company', $id_company);
 		$sql->execute();
 
-		$this->setLog($id_user, 'delete', $date_action, $id_company, $id_product);
+		$this->setLog($id_user, 'delete', $id_company, $id_product);
 	}
 
 	public function searchProdByName($name, $id_company)
@@ -120,7 +120,15 @@ class Inventory extends model{
 		return $array;
 	}
 
+	public function downInventory($id_product, $id_company, $quant_prod, $id_user)
+	{
+		$sql = $this->db->prepare("UPDATE inventory SET quant = quant - $quant_prod WHERE id = :id_product AND id_company = :id_company");
+		$sql->bindValue(':id_product', $id_product);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->execute();
 
+		$this->setLog($id_user, 'down', $id_company, $id_product);
+	}
 
 
 }

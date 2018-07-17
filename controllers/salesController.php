@@ -72,17 +72,55 @@ class salesController extends controller {
 
 				$id_client 		= addslashes($_POST['client_id']);
 				$status 		= addslashes($_POST['status']);
-				$total_price 	= addslashes($_POST['total_price']);
+				$quant			= $_POST['quant'];
 
-				$total_price	= str_replace('.', '', $total_price);
-				$total_price 	= str_replace(',', '.', $total_price);
 
-				$sale->addSell($user->getCompany(), $user->getId(), $id_client, $status, $total_price);
+				$sale->addSell($user->getCompany(), $user->getId(), $id_client, $status, $quant);
 
 				header('Location: '.BASE.'sales');
 			}
 
 			$this->loadTemplate('sales_add', $data);
+		} else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('sales', $data);			
+		}
+	}
+
+	public function edit_sell($id)
+	{
+		$data 		= array();
+		$user 		= new Users();
+		$user->setLoggedUser();
+		$company 	= new Companies($user->getCompany());
+		$permissions= new Permissions();
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('sales_view'))
+		{
+			$sale   = new Sales();
+
+			if(isset($_POST['client_id']) && !empty($_POST['client_id']))
+			{
+
+				$id_client 		= addslashes($_POST['client_id']);
+				$status 		= addslashes($_POST['status']);
+				$quant			= $_POST['quant'];
+
+
+				$sale->addSell($user->getCompany(), $user->getId(), $id_client, $status, $quant);
+
+				header('Location: '.BASE.'sales');
+			}
+
+			$data['sales_info'] = $sale->getInfo($id, $user->getCompany());
+
+			$data['permission_edit'] = $user->hasPermission('sales_edit');
+
+			$this->loadTemplate('sales_edit', $data);
 		} else
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';

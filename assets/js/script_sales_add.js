@@ -129,6 +129,7 @@ $(function(){
 					}
 
 					$('.searchresults').html(html);
+
 				}				
 			});
 		}
@@ -160,6 +161,7 @@ $(function(){
 					}
 
 					$('.searchresults').html(html);
+					
 				}				
 			});
 		}
@@ -171,15 +173,21 @@ $(function(){
 	// 	}, 100);	
 	// });
 
+
 	$('#client_name').on('focus', function(){
 		if($(this).val() != '') {
 			$('.searchresults').show();
-	}});
+		}});
 
 	$('#add_prod').on('focus', function(){
 		if($(this).val() != '') {
-			$('.searchresults').show();
-	}});	
+			$('.searchresultsprod').show();
+		}else{
+			setTimeout(function(){
+				$('.searchresults').hide();
+			}, 500);
+		}
+	});	
 
 
 	$('input[name=total_price]').maskMoney({prefix:'R$ ',thousands:'.', decimal:',', affixesStay: false});
