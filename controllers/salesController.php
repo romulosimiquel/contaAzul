@@ -99,26 +99,28 @@ class salesController extends controller {
 		$data['company_name'] = $company->getCompanyName();
 		$data['user_name']	  = $user->getUserName();
 
+		$data['sale_status']= array(
+				'0' => 'Aguardando Pagto.',
+				'1' => 'Pago',
+				'2' => 'Cancelado'
+			);
+
 		if($user->hasPermission('sales_view'))
 		{
 			$sale   = new Sales();
 
-			if(isset($_POST['client_id']) && !empty($_POST['client_id']))
+			$data['permission_edit'] = $user->hasPermission('sales_edit');
+
+			if(isset($_POST['status']) && !empty($_POST['status']) && $data['permission_edit'])
 			{
-
-				$id_client 		= addslashes($_POST['client_id']);
 				$status 		= addslashes($_POST['status']);
-				$quant			= $_POST['quant'];
 
-
-				$sale->addSell($user->getCompany(), $user->getId(), $id_client, $status, $quant);
+				$sale->changeStatus($status, $id, $quant$user->getCompany());
 
 				header('Location: '.BASE.'sales');
 			}
 
 			$data['sales_info'] = $sale->getInfo($id, $user->getCompany());
-
-			$data['permission_edit'] = $user->hasPermission('sales_edit');
 
 			$this->loadTemplate('sales_edit', $data);
 		} else

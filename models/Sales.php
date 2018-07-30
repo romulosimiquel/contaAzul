@@ -140,6 +140,11 @@ class Sales extends model{
 		$sql->execute();
 	}
 
+	public function changeStatus()
+	{
+		
+	}
+
 	public function getInfo($id, $id_company)
 	{
 		$array = array();
