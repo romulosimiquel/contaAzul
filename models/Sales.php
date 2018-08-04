@@ -140,9 +140,14 @@ class Sales extends model{
 		$sql->execute();
 	}
 
-	public function changeStatus()
+	public function changeStatus($status, $id, $id_company)
 	{
-		
+		$sql = $this->db->prepare("UPDATE sales SET status = :status WHERE id = :id AND id_company =:id_company");
+		$sql->bindValue(":status", $status);
+		$sql->bindValue(":id", $id);
+		$sql->bindValue(":id_company", $id_company);
+		$sql->execute();
+
 	}
 
 	public function getInfo($id, $id_company)

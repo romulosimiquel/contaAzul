@@ -111,11 +111,11 @@ class salesController extends controller {
 
 			$data['permission_edit'] = $user->hasPermission('sales_edit');
 
-			if(isset($_POST['status']) && !empty($_POST['status']) && $data['permission_edit'])
+			if(isset($_POST['status'])  && $data['permission_edit'])
 			{
 				$status 		= addslashes($_POST['status']);
 
-				$sale->changeStatus($status, $id, $quant$user->getCompany());
+				$sale->changeStatus($status, $id, $user->getCompany());
 
 				header('Location: '.BASE.'sales');
 			}

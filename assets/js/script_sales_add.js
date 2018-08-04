@@ -181,7 +181,7 @@ $(function(){
 
 	$('#add_prod').on('focus', function(){
 		if($(this).val() != '') {
-			$('.searchresultsprod').show();
+			$('.searchresults').show();
 		}else{
 			setTimeout(function(){
 				$('.searchresults').hide();
