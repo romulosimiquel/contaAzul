@@ -21,6 +21,8 @@
                     <li><a href="<?php echo BASE ?>clients">Clients</a></li>
                     <li><a href="<?php echo BASE ?>inventory">Estoque</a></li>
                     <li><a href="<?php echo BASE ?>sales">Vendas</a></li>
+                    <li><a href="<?php echo BASE ?>purchases">Compras</a></li>
+                    <li><a href="<?php echo BASE ?>report">Relatórios</a></li>
                 </ul>
             </div>
     	</div>
