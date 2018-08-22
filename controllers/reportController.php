@@ -57,8 +57,14 @@ class reportController extends controller {
 		if($user->hasPermission('report_view'))
 		{
 
+			$data['sale_status']= array(
+				'0' => 'Aguardando Pagto.',
+				'1' => 'Pago',
+				'2' => 'Cancelado'
+			);
 			$this->loadTemplate('report_sales', $data);
-		} else
+		} 
+		else
 		{	
 			$data['error'] = 'Você não tem permissão para acessar esse campo.';
 			$this->loadTemplate('report', $data);			
