@@ -17,6 +17,33 @@ class Sales extends model{
 		return $array;
 	}
 
+	public function getInfo($id, $id_company)
+	{
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT *, (select clients.name from clients where clients.id = sales.id_client) as client_name FROM sales WHERE id = :id AND id_company = :id_company");
+		$sql->bindValue(":id", $id);
+		$sql->bindValue(":id_company", $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array['info'] = $sql->fetch();
+		}
+
+		$sql = $this->db->prepare("SELECT sales_products.quant, sales_products.sale_price, inventory.name FROM sales_products LEFT JOIN inventory ON inventory.id = sales_products.id_product WHERE sales_products.id_sale = :id_sale AND sales_products.id_company = :id_company");
+		$sql->bindValue(":id_sale", $id);
+		$sql->bindValue(":id_company", $id_company);
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array['products'] = $sql->fetchAll();
+		}
+
+		return $array;
+	}
+
 	public function addSell($id_company, $id_user, $id_client, $status, $quant)
 	{
 		$inv = new Inventory();
@@ -150,28 +177,95 @@ class Sales extends model{
 
 	}
 
-	public function getInfo($id, $id_company)
+	public function getSalesFiltered($client_name, $period1, $period2, $status, $order, $id_company)
 	{
 		$array = array();
+		//$sql2 = $this->db->prepare();
 
-		$sql = $this->db->prepare("SELECT *, (select clients.name from clients where clients.id = sales.id_client) as client_name FROM sales WHERE id = :id AND id_company = :id_company");
-		$sql->bindValue(":id", $id);
-		$sql->bindValue(":id_company", $id_company);
-		$sql->execute();
+		$sql = "SELECT 
+					clients.name,
+					sales.date_sale,
+					sales.status,
+					sales.total_price
+				FROM 
+					sales 
+				LEFT JOIN
+					clients
+				ON 
+					clients.id = sales.id_client
+				WHERE ";
 
-		if($sql->rowCount() > 0)
+		$where = array();
+
+		$where[] = "sales.id_company = :id_company";
+		//$sql2->bindValue(":id_company", $id_company);
+
+		if(!empty($client_name))
 		{
-			$array['info'] = $sql->fetch();
+			$where[] = "clients.name LIKE '%".$client_name."%'";
+			//$sql2->bindValue(":client_name", $client_name);
 		}
 
-		$sql = $this->db->prepare("SELECT sales_products.quant, sales_products.sale_price, inventory.name FROM sales_products LEFT JOIN inventory ON inventory.id = sales_products.id_product WHERE sales_products.id_sale = :id_sale AND sales_products.id_company = :id_company");
-		$sql->bindValue(":id_sale", $id);
+		if(!empty($period1))
+		{
+			$where[] = "sales.date_sale >= :period1";
+			//$sql2->bindValue(":period1", $period1);
+		}
+
+		if(!empty($period2))
+		{
+			$where[] = "sales.date_sale <= :period2";
+			//$sql2->bindValue(":period2", $period2);
+		}
+
+		if($status != '')
+		{
+			$where[] = "sales.status = :status";
+			//$sql2->bindValue(":status", $status);
+		}
+
+		$sql .= implode(' AND ', $where);
+
+		switch($order)
+		{
+			case 'date_desc':
+			default:
+				$sql .= " ORDER BY sales.date_sale DESC";
+				break;
+
+			case 'date_asc':
+				$sql .= " ORDER BY sales.date_sale ASC";
+				break;
+
+			case 'status':
+				$sql .= " ORDER BY sales.status";
+				break;
+		}
+
+		$sql = $this->db->prepare($sql);
+
 		$sql->bindValue(":id_company", $id_company);
+
+		if(!empty($period1))
+		{
+			$sql->bindValue(":period1", $period1);
+		}
+
+		if(!empty($period2))
+		{
+			$sql->bindValue(":period2", $period2);
+		}
+
+		if($status != '')
+		{
+			$sql->bindValue(":status", $status);
+		}
+
 		$sql->execute();
 
 		if($sql->rowCount() > 0)
 		{
-			$array['products'] = $sql->fetchAll();
+			$array = $sql->fetchAll();
 		}
 
 		return $array;
