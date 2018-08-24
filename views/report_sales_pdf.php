@@ -8,11 +8,11 @@
 
 		foreach ($filters as $tipo => $filtro) 
 		{
-			if($tipo == 'period2' || $tipo == 'period1')
+			if(($tipo == 'period2' && $filtro != '' || $tipo == 'period1' && $filtro != ''))
 			{
 				$filtro = date('d/m/Y', strtotime($filtro));
 			}
-			elseif ($tipo == 'status') 
+			elseif ($tipo == 'status' && $filtro != '') 
 			{
 				$filtro = $sale_status[$filtro];
 			}
@@ -21,7 +21,11 @@
 				$filtro = $order[$filtro];
 			}
 
-			echo "Filtrado por: ".$filtro."<br>";
+			if($filtro != '')
+			{
+				echo "Filtrado por: ".$filtro."<br>";
+			}
+			
 		}
 		// if(isset($filters['client_name']) && !empty($filters['client_name']))
 		// {

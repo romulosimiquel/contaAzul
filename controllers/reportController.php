@@ -1,6 +1,8 @@
 <?php
 class reportController extends controller {
 
+	
+
 	/** 
 	* Call clients view
 	* @return 
@@ -14,6 +16,8 @@ class reportController extends controller {
 		{
 			header("Location: ".BASE."login");
 		}
+
+		require_once __DIR__ . '/../vendor/autoload.php';
 	}
 
 	/** 
@@ -73,11 +77,14 @@ class reportController extends controller {
 
 	public function sales_pdf()
 	{
-		$data 		= array();
-		$user 		= new Users();
+		$data 		 = array();
+		$user 		 = new Users();
+
 		$user->setLoggedUser();
-		$company 	= new Companies($user->getCompany());
-		$permissions= new Permissions();
+
+		$company 	 = new Companies($user->getCompany());
+		$permissions = new Permissions();
+		$mpdf 		 = new \Mpdf\Mpdf();
 
 		$data['company_name'] = $company->getCompanyName();
 		$data['user_name']	  = $user->getUserName();
@@ -107,7 +114,70 @@ class reportController extends controller {
 
 			$data['filters'] = $_GET;
 
+			//
+			ob_start();
 			$this->loadView('report_sales_pdf', $data);
+			$html = ob_get_contents();
+			ob_end_clean();
+
+			$mpdf->WriteHTML($html);
+			$mpdf->Output();
+		} 
+		else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('report', $data);			
+		}
+	}
+
+	public function inventory()
+	{
+		$data 		= array();
+		$user 		= new Users();
+		$user->setLoggedUser();
+		$company 	= new Companies($user->getCompany());
+		$permissions= new Permissions();
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('report_view'))
+		{
+			$this->loadTemplate('report_inventory', $data);
+		} 
+		else
+		{	
+			$data['error'] = 'Você não tem permissão para acessar esse campo.';
+			$this->loadTemplate('report', $data);			
+		}
+	}
+
+	public function inventory_pdf()
+	{
+		$data 		 = array();
+		$user 		 = new Users();
+
+		$user->setLoggedUser();
+
+		$company 	 = new Companies($user->getCompany());
+		$permissions = new Permissions();
+		$mpdf 		 = new \Mpdf\Mpdf();
+
+		$data['company_name'] = $company->getCompanyName();
+		$data['user_name']	  = $user->getUserName();
+
+		if($user->hasPermission('report_view'))
+		{
+			$inv = new Inventory();
+			$data['inventory_list'] = $inv->getInventoryFiltered($user->getCompany());
+
+			ob_start();
+			$this->loadView('report_inventory_pdf', $data);
+			$html = ob_get_contents();
+			ob_end_clean();
+
+			$mpdf->WriteHTML($html);
+			$mpdf->Output();
 		} 
 		else
 		{	
