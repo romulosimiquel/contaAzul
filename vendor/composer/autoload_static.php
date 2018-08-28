@@ -15,9 +15,23 @@ class ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d
         array (
             'Psr\\Log\\' => 8,
         ),
+        'N' => 
+        array (
+            'NFePHP\\NFe\\' => 11,
+            'NFePHP\\Gtin\\' => 12,
+            'NFePHP\\Common\\' => 14,
+        ),
         'M' => 
         array (
             'Mpdf\\' => 5,
+        ),
+        'L' => 
+        array (
+            'League\\Flysystem\\' => 17,
+        ),
+        'J' => 
+        array (
+            'JsonSchema\\' => 11,
         ),
         'D' => 
         array (
@@ -30,13 +44,43 @@ class ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'NFePHP\\NFe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nfephp-org/sped-nfe/src',
+        ),
+        'NFePHP\\Gtin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nfephp-org/sped-gtin/src',
+        ),
+        'NFePHP\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nfephp-org/sped-common/src',
+        ),
         'Mpdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
         ),
+        'League\\Flysystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/flysystem/src',
+        ),
+        'JsonSchema\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
+        ),
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'F' => 
+        array (
+            'ForceUTF8\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/neitanod/forceutf8/src',
+            ),
         ),
     );
 
@@ -55,6 +99,7 @@ class ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitf6097bf4da4ceffe20b5e044da7a292d::$classMap;
 
         }, null, ClassLoader::class);

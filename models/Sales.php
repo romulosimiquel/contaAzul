@@ -44,6 +44,100 @@ class Sales extends model{
 		return $array;
 	}
 
+	public function getSalesFiltered($client_name, $period1, $period2, $status, $order, $id_company)
+	{
+		$array = array();
+		//$sql2 = $this->db->prepare();
+
+		$sql = "SELECT 
+					clients.name,
+					sales.date_sale,
+					sales.status,
+					sales.total_price
+				FROM 
+					sales 
+				LEFT JOIN
+					clients
+				ON 
+					clients.id = sales.id_client
+				WHERE ";
+
+		$where = array();
+
+		$where[] = "sales.id_company = :id_company";
+		//$sql2->bindValue(":id_company", $id_company);
+
+		if(!empty($client_name))
+		{
+			$where[] = "clients.name LIKE '%".$client_name."%'";
+			//$sql2->bindValue(":client_name", $client_name);
+		}
+
+		if(!empty($period1))
+		{
+			$where[] = "sales.date_sale >= :period1";
+			//$sql2->bindValue(":period1", $period1);
+		}
+
+		if(!empty($period2))
+		{
+			$where[] = "sales.date_sale <= :period2";
+			//$sql2->bindValue(":period2", $period2);
+		}
+
+		if($status != '')
+		{
+			$where[] = "sales.status = :status";
+			//$sql2->bindValue(":status", $status);
+		}
+
+		$sql .= implode(' AND ', $where);
+
+		switch($order)
+		{
+			case 'date_desc':
+			default:
+				$sql .= " ORDER BY sales.date_sale DESC";
+				break;
+
+			case 'date_asc':
+				$sql .= " ORDER BY sales.date_sale ASC";
+				break;
+
+			case 'status':
+				$sql .= " ORDER BY sales.status";
+				break;
+		}
+
+		$sql = $this->db->prepare($sql);
+
+		$sql->bindValue(":id_company", $id_company);
+
+		if(!empty($period1))
+		{
+			$sql->bindValue(":period1", $period1);
+		}
+
+		if(!empty($period2))
+		{
+			$sql->bindValue(":period2", $period2);
+		}
+
+		if($status != '')
+		{
+			$sql->bindValue(":status", $status);
+		}
+
+		$sql->execute();
+
+		if($sql->rowCount() > 0)
+		{
+			$array = $sql->fetchAll();
+		}
+
+		return $array;
+	}
+
 	public function addSell($id_company, $id_user, $id_client, $status, $quant)
 	{
 		$inv = new Inventory();
@@ -177,98 +271,71 @@ class Sales extends model{
 
 	}
 
-	public function getSalesFiltered($client_name, $period1, $period2, $status, $order, $id_company)
+	public function getTotalRevenue($period1, $period2, $id_company)
 	{
-		$array = array();
-		//$sql2 = $this->db->prepare();
+		$float = 0;
 
-		$sql = "SELECT 
-					clients.name,
-					sales.date_sale,
-					sales.status,
-					sales.total_price
-				FROM 
-					sales 
-				LEFT JOIN
-					clients
-				ON 
-					clients.id = sales.id_client
-				WHERE ";
+		$query = "SELECT SUM(total_price) as total FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2";
+		$sql   = $this->db->prepare($query);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':period1', $period1);
+		$sql->bindValue(':period2', $period2);
+		$sql->execute();
 
-		$where = array();
+		$n = $sql->fetch();
+		$float = $n['total'];
 
-		$where[] = "sales.id_company = :id_company";
-		//$sql2->bindValue(":id_company", $id_company);
+		return $float;
+	}
 
-		if(!empty($client_name))
-		{
-			$where[] = "clients.name LIKE '%".$client_name."%'";
-			//$sql2->bindValue(":client_name", $client_name);
-		}
+	public function getTotalExpenses($period1, $period2, $id_company)
+	{
+		$float = 0;
 
-		if(!empty($period1))
-		{
-			$where[] = "sales.date_sale >= :period1";
-			//$sql2->bindValue(":period1", $period1);
-		}
+		$query = "SELECT SUM(total_price) as total FROM purchases WHERE id_company = :id_company AND date_purchase BETWEEN :period1 AND :period2";
+		$sql   = $this->db->prepare($query);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':period1', $period1);
+		$sql->bindValue(':period2', $period2);
+		$sql->execute();
 
-		if(!empty($period2))
-		{
-			$where[] = "sales.date_sale <= :period2";
-			//$sql2->bindValue(":period2", $period2);
-		}
+		$n = $sql->fetch();
+		$float = $n['total'];
 
-		if($status != '')
-		{
-			$where[] = "sales.status = :status";
-			//$sql2->bindValue(":status", $status);
-		}
+		return $float;
+	}
 
-		$sql .= implode(' AND ', $where);
+	public function getSoldProducts($period1, $period2, $id_company)
+	{
+		$int = 0;
 
-		switch($order)
-		{
-			case 'date_desc':
-			default:
-				$sql .= " ORDER BY sales.date_sale DESC";
-				break;
-
-			case 'date_asc':
-				$sql .= " ORDER BY sales.date_sale ASC";
-				break;
-
-			case 'status':
-				$sql .= " ORDER BY sales.status";
-				break;
-		}
-
-		$sql = $this->db->prepare($sql);
-
-		$sql->bindValue(":id_company", $id_company);
-
-		if(!empty($period1))
-		{
-			$sql->bindValue(":period1", $period1);
-		}
-
-		if(!empty($period2))
-		{
-			$sql->bindValue(":period2", $period2);
-		}
-
-		if($status != '')
-		{
-			$sql->bindValue(":status", $status);
-		}
-
+		$query = "SELECT id FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2";
+		$sql   = $this->db->prepare($query);
+		$sql->bindValue(':id_company', $id_company);
+		$sql->bindValue(':period1', $period1);
+		$sql->bindValue(':period2', $period2);
 		$sql->execute();
 
 		if($sql->rowCount() > 0)
 		{
-			$array = $sql->fetchAll();
+			$p = array();
+
+			foreach($sql->fetchAll() as $sale_item)
+			{
+				$p[] = $sale_item['id'];
+			}
+
+			$query = "SELECT SUM(quant) as total FROM sales_products WHERE id_company = :id_company AND id_sale IN (".implode(",",$p).")";
+			$sql   = $this->db->prepare($query);
+			$sql->bindValue(':id_company', $id_company);
+			$sql->execute();
+
+			$n 	 = $sql->fetch();
+			$int = $n['total'];
 		}
 
-		return $array;
+		return $int;
 	}
+	
 
 }

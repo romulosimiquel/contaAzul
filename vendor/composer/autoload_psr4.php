@@ -7,6 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'NFePHP\\NFe\\' => array($vendorDir . '/nfephp-org/sped-nfe/src'),
+    'NFePHP\\Gtin\\' => array($vendorDir . '/nfephp-org/sped-gtin/src'),
+    'NFePHP\\Common\\' => array($vendorDir . '/nfephp-org/sped-common/src'),
     'Mpdf\\' => array($vendorDir . '/mpdf/mpdf/src'),
+    'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
+    'JsonSchema\\' => array($vendorDir . '/justinrainbow/json-schema/src/JsonSchema'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
 );

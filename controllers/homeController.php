@@ -28,10 +28,17 @@ class homeController extends controller {
 		$u->setLoggedUser();
 		$company = new Companies($u->getCompany());
 
-		$data['company_name'] = $company->getCompanyName();
-		$data['user_name']	  = $u->getUserName();
+		$nf = new Nfe();
+		$nf->emitirNFE(1);
 
-	
+		$data['company_name']  = $company->getCompanyName();
+		$data['user_name']	   = $u->getUserName();
+
+		$sale = new Sales();
+
+		$data['products_sold'] = $sale->getSoldProducts(date('Y-m-d', strtotime('-90 days')), date('Y-m-d'), $u->getCompany());
+		$data['revenue'] 	   = $sale->getTotalRevenue(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+		$data['expenses']	   = $sale->getTotalExpenses(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
 		$this->loadTemplate('home', $data);
 	}
