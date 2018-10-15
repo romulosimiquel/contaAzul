@@ -1,4 +1,5 @@
 <div class="db-row">
+	TESTE DA PARADA
 	<div class="grid-1">
 		<div class="db-grid-area">
 			<div class="db-grid-area-count"><?php echo $products_sold ?></div>
